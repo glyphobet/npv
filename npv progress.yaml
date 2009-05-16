@@ -1,0 +1,181 @@
+-
+    timestamp: 2006-04-01
+    event: Senate passes
+    state: Colorado
+-
+    timestamp: 2006-05-01
+    event: Assembly passes # lower house
+    state: California
+-
+    timestamp: 2006-08-01
+    event: Senate passes
+    state: California
+-
+    timestamp: 2006-09-30
+    event: Veto
+    state: California
+- # 2007
+    timestamp: 2007-01-24
+    event: Senate passes
+    state: Colorado
+-
+    timestamp: 2007-02-14
+    event: Senate passes
+    state: Hawaii
+-
+    timestamp: 2007-03-21
+    event: House passes
+    state: Arkansas
+-
+    timestamp: 2007-03-28
+    event: Senate passes
+    state: Maryland
+-
+    timestamp: 2007-04-02
+    event: House passes
+    state: Maryland
+-
+    timestamp: 2007-04-05
+    event: House passes
+    state: Hawaii
+-
+    timestamp: 2007-04-10
+    event: Law
+    state: Maryland
+-
+    timestamp: 2007-05-02
+    event: House passes
+    state: Illinois
+-
+    timestamp: 2007-05-03
+    event: Veto
+    state: Hawaii
+-
+    timestamp: 2007-05-14
+    event: Senate passes
+    state: North Carolina
+-
+    timestamp: 2007-05-14
+    event: Senate passes
+    state: California
+-
+    timestamp: 2007-05-31
+    event: Senate passes
+    state: Illinois
+-
+    timestamp: 2007-12-13
+    event: Assembly passes # lower house
+    state: New Jersey
+- # 2008
+    timestamp: 2008-01-03
+    event: Senate passes
+    state: New Jersey
+-
+    timestamp: 2008-01-09
+    event: House passes
+    state: Illinois
+-
+    timestamp: 2008-01-13
+    event: Law
+    state: New Jersey
+-
+    timestamp: 2008-02-18
+    event: Senate passes
+    state: Washington
+-
+    timestamp: 2008-03-04
+    event: House passes
+    state: Hawaii
+-
+    timestamp: 2008-03-04
+    event: Senate passes
+    state: Hawaii
+-
+    timestamp: 2008-03-19
+    event: Senate passes
+    state: Vermont
+-
+    timestamp: 2008-04-02
+    event: Senate passes
+    state: Maine
+-
+    timestamp: 2008-04-07
+    event: Law
+    state: Illinois
+-
+    timestamp: 2008-04-24
+    event: House passes
+    state: Vermont
+-
+    timestamp: 2008-05-01
+    event: Law
+    state: Hawaii
+-
+    timestamp: 2008-05-16
+    event: Veto
+    state: Vermont
+-
+    timestamp: 2008-05-27
+    event: Senate passes
+    state: Rhode Island
+-
+    timestamp: 2008-06-20
+    event: House passes
+    state: Rhode Island
+-
+    timestamp: 2008-06-30
+    event: Assembly passes # lower house
+    state: California
+-
+    timestamp: 2008-07-02
+    event: Veto
+    state: Rhode Island
+-
+    timestamp: 2008-07-09
+    event: House passes
+    state: Massachusetts
+-
+    timestamp: 2008-07-30
+    event: Senate passes
+    state: Massachusetts
+-
+    timestamp: 2008-08-14
+    event: Veto
+    state: California
+-
+    timestamp: 2008-12-11
+    event: House passes
+    state: Michigan
+- # 2009
+    timestamp: 2009-02-07
+    event: Senate passes
+    state: Vermont
+-
+    timestamp: 2009-02-20
+    event: House passes
+    state: New Mexico
+-
+    timestamp: 2009-03-12
+    event: House passes
+    state: Oregon
+-
+    timestamp: 2009-03-17
+    event: House passes
+    state: Colorado
+-
+    timestamp: 2009-04-15
+    event: House passes
+    state: Washington
+-
+    timestamp: 2009-04-21
+    event: Assembly passes # lower house
+    state: Nevada
+-
+    timestamp: 2009-04-28
+    event: Law
+    state: Washington
+-
+    timestamp: 2009-05-12
+    event: House passes
+    state: Connecticut
+    
