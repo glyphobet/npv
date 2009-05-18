@@ -1,3 +1,12 @@
+/*
+© 2009 Matt Chisholm • matt (dash) npv (at) theory (dot) org • http://glyphobet.net/npv/
+
+This work is licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License.
+http://creativecommons.org/licenses/by-nc-sa/3.0/us/
+
+Data collected from: http://nationalpopularvote.com/
+Please donate: http://nationalpopularvote.com/pages/donate.php
+*/
 var svgns="http://www.w3.org/2000/svg";
 var xlinkns="http://www.w3.org/1999/xlink";
 var svgRoot;
@@ -16,7 +25,7 @@ function date_format(date){
 }
 
 function days(duration){
-    return duration / (60 * 60 * 24 * 1000);
+    return Math.round(duration / (60 * 60 * 24 * 1000));
 }
 
 function get(object, key, value){
@@ -61,6 +70,15 @@ function text(x, y, attributes){
         t.appendChild(svgDocument.createTextNode(content));
         return t;
     }
+}
+
+function link(url, content){
+    var link = _create_element('a', {'text-decoration':'underline'});
+    link.setAttributeNS(xlinkns, 'xlink:href', url);
+    link.setAttributeNS(xlinkns, 'xlink:target', "_top"); // For Firefox
+    link.setAttribute('target', "_top"); // For Safari
+    link.appendChild(svgDocument.createTextNode(content));
+    return link;
 }
 
 function line(x1, y1, x2, y2, attributes){
@@ -269,6 +287,7 @@ var base_text_style  = {'font-size':padding*4/5};
 var left_text_style  = update({'text-anchor':'start'}, base_text_style);
 var right_text_style = update({'text-anchor':'end'}, base_text_style);
 var label_text_style = {'text-anchor':'middle', 'font-size':padding*3/5,};
+var credits_text_style = {'text-anchor':'middle', 'font-size':padding*2/5,};
 var title_text_style = {'text-anchor':'start','font-size':padding};
 var fudge = base_text_style['font-size']/2;
 
@@ -424,18 +443,20 @@ function handle_event(i){
 }
 
 function render(evt){
-    O = evt.target;
-    svgDocument = O.ownerDocument;
+    svgDocument = evt.target.ownerDocument;
     svgRoot = svgDocument.documentElement;
 
-    //dds['width' ] = chart_end + padding*2
-    //dds['height'] = base_y + padding*2
-    //dds['viewBox'] = (0, 0, dds['width'], dds['height'])
+    svgRoot.setAttribute('width' , chart_end + padding*2);
+    svgRoot.setAttribute('height', base_y + padding*2);
+    svgRoot.setAttribute('viewBox', '0 0 '+(chart_end + padding*2)+' '+(base_y + padding*2)); // might not need this
+    var piframe = parent.document.getElementById('iframe');
+    if(piframe){
+        piframe.setAttribute('width' , chart_end + padding*2);
+        piframe.setAttribute('height', base_y + padding*2);
+    }
 
     var title = text(padding, padding+fudge, attributes=title_text_style)('Progress of ')
-    var title_link = _create_element('a', {'text-decoration':'underline'});
-    title_link.setAttributeNS(xlinkns, 'xlink:href', "http://nationalpopularvote.com/");
-    title_link.appendChild(svgDocument.createTextNode('National Popular Vote Legislation'));
+    var title_link = link("http://nationalpopularvote.com/", "National Popular Vote Legislation");
     title.appendChild(title_link);
     svgRoot.appendChild(title);
 
@@ -451,6 +472,14 @@ function render(evt){
         svgRoot.appendChild(text(tick_x, base_y + fudge*3, attributes=left_text_style)(y+1));
     }
 
+    var credits = text(chart_end/2, base_y + padding *2, attributes=credits_text_style)("© 2009 ");
+    credits.appendChild(link('http://glyphobet.net', "Matt Chisholm"));
+    credits.appendChild(svgDocument.createTextNode(" • "))
+    credits.appendChild(link('http://creativecommons.org/licenses/by-nc-sa/3.0/us/', "Licensed under Creative Commons"));
+    credits.appendChild(svgDocument.createTextNode(" • "))
+    credits.appendChild(link('http://nationalpopularvote.com/pages/donate.php', "Click here to donate"));
+    svgRoot.appendChild(credits);
+    
     // Create polygons and key 
     var key_start = (padding + fudge) * 2;
     var box_size = left_text_style['font-size'];
@@ -464,7 +493,7 @@ function render(evt){
         g.appendChild(p)
         svgRoot.appendChild(g);
 
-        var r = rect(padding, key_start-box_size+1, box_size, box_size, attributes=color)
+        var r = rect(padding+1, key_start-box_size+1, box_size, box_size, attributes=color)
         g.appendChild(r);
         g.appendChild(text(padding+box_size*1.5, key_start, attributes=update({'fill':colors[ct][2],}, left_text_style))(descriptions[ct]));
         key_start += padding+fudge;
