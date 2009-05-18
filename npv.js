@@ -1,8 +1,10 @@
-var xmlns=svgns="http://www.w3.org/2000/svg";
+var svgns="http://www.w3.org/2000/svg";
+var xlinkns="http://www.w3.org/1999/xlink";
 var svgRoot;
 var svgDocument;
 
-// JavaScript tools that Python already has
+
+// JavaScript fixes and tools that Python already has
 function non_stupid_date(year, month_not_month_minus_one, day){
     // WHAT THE FUCK IS WRONG WITH THIS FUCKING LANGUAGE
     return new Date(year, month_not_month_minus_one - 1, day);
@@ -32,6 +34,7 @@ function update(aa, other){
     return aa;
 }
 // End JavaScript tools
+
 
 // SVG generation helpers
 function _set_attributes(node, attributes){
@@ -78,6 +81,14 @@ function rect(x, y, w, h, attributes){
     return r;
 }
 
+function circle(x, y, r, attributes){
+    var c = _create_element('circle', attributes);
+    c.setAttribute('cx', x);
+    c.setAttribute('cy', y);
+    c.setAttribute('r', r);
+    return c;
+}
+
 function path(d, attributes){
     var p = _create_element('path', attributes);
     p.setAttribute('d', d);
@@ -101,9 +112,10 @@ function close_path(path){
 function reset_path(path){
     path.setAttribute('d', 'M');
 }
-
 // End SVG generation helpers
 
+
+// Data
 // Electoral votes
 var evs = {
  'Alabama': 9,
@@ -161,53 +173,56 @@ var evs = {
 
 // National Popular Vote progress
 var npvp = [
-    {'timestamp': non_stupid_date(2006,  4,  1), 'state': 'Colorado'      , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2006,  5,  1), 'state': 'California'    , 'event': 'Assembly passes'},
-    {'timestamp': non_stupid_date(2006,  8,  1), 'state': 'California'    , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2006,  9, 30), 'state': 'California'    , 'event': 'Veto'           },
-    {'timestamp': non_stupid_date(2007,  1, 24), 'state': 'Colorado'      , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2007,  2, 14), 'state': 'Hawaii'        , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2007,  3, 21), 'state': 'Arkansas'      , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2007,  3, 28), 'state': 'Maryland'      , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2007,  4,  2), 'state': 'Maryland'      , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2007,  4,  5), 'state': 'Hawaii'        , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2007,  4, 10), 'state': 'Maryland'      , 'event': 'Law'            },
-    {'timestamp': non_stupid_date(2007,  5,  2), 'state': 'Illinois'      , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2007,  5,  3), 'state': 'Hawaii'        , 'event': 'Veto'           },
-    {'timestamp': non_stupid_date(2007,  5, 14), 'state': 'North Carolina', 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2007,  5, 14), 'state': 'California'    , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2007,  5, 31), 'state': 'Illinois'      , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2007, 12, 13), 'state': 'New Jersey'    , 'event': 'Assembly passes'},
-    {'timestamp': non_stupid_date(2008,  1,  3), 'state': 'New Jersey'    , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2008,  1,  9), 'state': 'Illinois'      , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2008,  1, 13), 'state': 'New Jersey'    , 'event': 'Law'            },
-    {'timestamp': non_stupid_date(2008,  2, 18), 'state': 'Washington'    , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2008,  3,  4), 'state': 'Hawaii'        , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2008,  3,  4), 'state': 'Hawaii'        , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2008,  3, 19), 'state': 'Vermont'       , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2008,  4,  2), 'state': 'Maine'         , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2008,  4,  7), 'state': 'Illinois'      , 'event': 'Law'            },
-    {'timestamp': non_stupid_date(2008,  4, 24), 'state': 'Vermont'       , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2008,  5,  1), 'state': 'Hawaii'        , 'event': 'Law'            },
-    {'timestamp': non_stupid_date(2008,  5, 16), 'state': 'Vermont'       , 'event': 'Veto'           },
-    {'timestamp': non_stupid_date(2008,  5, 27), 'state': 'Rhode Island'  , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2008,  6, 20), 'state': 'Rhode Island'  , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2008,  6, 30), 'state': 'California'    , 'event': 'Assembly passes'},
-    {'timestamp': non_stupid_date(2008,  7,  2), 'state': 'Rhode Island'  , 'event': 'Veto'           },
-    {'timestamp': non_stupid_date(2008,  7,  9), 'state': 'Massachusetts' , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2008,  7, 30), 'state': 'Massachusetts' , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2008,  8, 14), 'state': 'California'    , 'event': 'Veto'           },
-    {'timestamp': non_stupid_date(2008, 12, 11), 'state': 'Michigan'      , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2009,  2,  7), 'state': 'Vermont'       , 'event': 'Senate passes'  },
-    {'timestamp': non_stupid_date(2009,  2, 20), 'state': 'New Mexico'    , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2009,  3, 12), 'state': 'Oregon'        , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2009,  3, 17), 'state': 'Colorado'      , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2009,  4, 15), 'state': 'Washington'    , 'event': 'House passes'   },
-    {'timestamp': non_stupid_date(2009,  4, 21), 'state': 'Nevada'        , 'event': 'Assembly passes'},
-    {'timestamp': non_stupid_date(2009,  4, 28), 'state': 'Washington'    , 'event': 'Law'            },
-    {'timestamp': non_stupid_date(2009,  5, 12), 'state': 'Connecticut'   , 'event': 'House passes'   },
+    {'timestamp': non_stupid_date(2006,  4,  1), 'state': 'Colorado'      , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2006,  5,  1), 'state': 'California'    , 'event': 'Assembly'},
+    {'timestamp': non_stupid_date(2006,  8,  1), 'state': 'California'    , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2006,  9, 30), 'state': 'California'    , 'event': 'Veto'    },
+    {'timestamp': non_stupid_date(2007,  1, 24), 'state': 'Colorado'      , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2007,  2, 14), 'state': 'Hawaii'        , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2007,  3, 21), 'state': 'Arkansas'      , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2007,  3, 28), 'state': 'Maryland'      , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2007,  4,  2), 'state': 'Maryland'      , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2007,  4,  5), 'state': 'Hawaii'        , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2007,  4, 10), 'state': 'Maryland'      , 'event': 'Law'     },
+    {'timestamp': non_stupid_date(2007,  5,  2), 'state': 'Illinois'      , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2007,  5,  3), 'state': 'Hawaii'        , 'event': 'Veto'    },
+    {'timestamp': non_stupid_date(2007,  5, 14), 'state': 'North Carolina', 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2007,  5, 14), 'state': 'California'    , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2007,  5, 31), 'state': 'Illinois'      , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2007, 12, 13), 'state': 'New Jersey'    , 'event': 'Assembly'},
+    {'timestamp': non_stupid_date(2008,  1,  3), 'state': 'New Jersey'    , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2008,  1,  9), 'state': 'Illinois'      , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2008,  1, 13), 'state': 'New Jersey'    , 'event': 'Law'     },
+    {'timestamp': non_stupid_date(2008,  2, 18), 'state': 'Washington'    , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2008,  3,  4), 'state': 'Hawaii'        , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2008,  3,  4), 'state': 'Hawaii'        , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2008,  3, 19), 'state': 'Vermont'       , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2008,  4,  2), 'state': 'Maine'         , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2008,  4,  7), 'state': 'Illinois'      , 'event': 'Law'     },
+    {'timestamp': non_stupid_date(2008,  4, 24), 'state': 'Vermont'       , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2008,  5,  1), 'state': 'Hawaii'        , 'event': 'Law'     },
+    {'timestamp': non_stupid_date(2008,  5, 16), 'state': 'Vermont'       , 'event': 'Veto'    },
+    {'timestamp': non_stupid_date(2008,  5, 27), 'state': 'Rhode Island'  , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2008,  6, 20), 'state': 'Rhode Island'  , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2008,  6, 30), 'state': 'California'    , 'event': 'Assembly'},
+    {'timestamp': non_stupid_date(2008,  7,  2), 'state': 'Rhode Island'  , 'event': 'Veto'    },
+    {'timestamp': non_stupid_date(2008,  7,  9), 'state': 'Massachusetts' , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2008,  7, 30), 'state': 'Massachusetts' , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2008,  8, 14), 'state': 'California'    , 'event': 'Veto'    },
+    {'timestamp': non_stupid_date(2008, 12, 11), 'state': 'Michigan'      , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2009,  2,  7), 'state': 'Vermont'       , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2009,  2, 20), 'state': 'New Mexico'    , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2009,  3, 12), 'state': 'Oregon'        , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2009,  3, 17), 'state': 'Colorado'      , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2009,  4, 15), 'state': 'Washington'    , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2009,  4, 21), 'state': 'Nevada'        , 'event': 'Assembly'},
+    {'timestamp': non_stupid_date(2009,  4, 28), 'state': 'Washington'    , 'event': 'Law'     },
+    {'timestamp': non_stupid_date(2009,  5, 12), 'state': 'Connecticut'   , 'event': 'House'   },
+    // NOTE: Add new events here
 ];
 
+
+// Configuration
 var charts = ['One house', 'Both houses', 'Law'];
 
 // http://colorschemedesigner.com/#4O527w0w0w0w0
@@ -227,14 +242,18 @@ var start = non_stupid_date(2006, 2, 23);
 
 var states = {};
 
-var padding = 12;
+var padding = 20;
 var base_y = 270 + padding; // 538
 
 var chart_end = days(new Date() - start) + padding
 
 var paths = {};
 var groups = {};
+var tip_items;
+var tip_zones;
 
+
+// Debugging
 var debug_content = '';
 function debug(e){
     debug_content += e+'\n';
@@ -244,25 +263,84 @@ function show_debug(){
     if (debug_content != '') alert(debug_content);
 }
 
-var base_text_style  = {'font-size':12};
+
+// text styles
+var base_text_style  = {'font-size':padding*4/5};
 var left_text_style  = update({'text-anchor':'start'}, base_text_style);
 var right_text_style = update({'text-anchor':'end'}, base_text_style);
-var label_text_style = {'text-anchor':'start','font-size':4,};
-var title_text_style = {'text-anchor':'start','font-size':18};
+var label_text_style = {'text-anchor':'middle', 'font-size':padding*3/5,};
+var title_text_style = {'text-anchor':'start','font-size':padding};
 var fudge = base_text_style['font-size']/2;
 
-// Label helpers
+
+// Label / tooltip helpers
+function show_tooltip(zone){
+    var tip = svgDocument.getElementById('tip:'+zone.id);
+    var bg = tip.firstChild;
+    if (bg.getAttribute('x') == 0){
+        var bbox = tip.lastChild.getBBox();
+        var fs = parseInt(tip.lastChild.getAttribute('font-size'));
+        bg.setAttribute('x', bbox.x-(fs/2));
+        bg.setAttribute('y', bbox.y-(fs/3));
+        bg.setAttribute('width', bbox.width+fs);
+        bg.setAttribute('height', bbox.height+(2*fs/3));
+    }
+    svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 1); 
+}
+
+function hide_tooltip(zone){
+    svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 0);
+}
 
 function make_label(x, y, date, state, event, chart){
+    var c = circle(x, y, 6, attributes={'opacity':0});
+    c.setAttribute('onmouseover', 'show_tooltip(this);');
+    c.setAttribute('onmouseout' , 'hide_tooltip(this);');
+    c.setAttribute('id', x+','+y);
+    tip_zones.appendChild(c);
+
+    var g = group(attributes={'opacity':0,});
+    g.setAttribute('id', 'tip:'+x+','+y);
+    g.appendChild(rect(0,0,0,0, attributes={'fill':'white', 'stroke':'white', 'opacity':0.75, 'rx':padding/5, 'ry':padding/5}));
+    //g.appendChild(path('M'+x+' '+y+' '+(x+4)+' '+(y-padding+4+3)+' '+(x-4)+' '+(y-padding+4+3)+'Z', attributes={'fill':'white', 'opacity':0.75}))
+    g.appendChild(text(x, y - padding/2, attributes=update({'fill':colors[chart][2]}, label_text_style))(date_format(date) + ': ' + make_label_text(state, event)));
+    tip_items.appendChild(g);
+}
+
+function append_and_move_label(x, y, extra){
+    tip_items.lastChild.lastChild.appendChild(svgDocument.createTextNode(extra));
+    tip_items.lastChild.lastChild.setAttribute('x', x);
+    tip_items.lastChild.lastChild.setAttribute('y', y - padding/2);
+    tip_zones.lastChild.setAttribute('cx', x);
+    tip_zones.lastChild.setAttribute('cy', y);
+}
+
+function old_make_label(x, y, date, state, event, chart){
     var lg = group(attrs={'transform':make_label_rotation(x+1, y-2)});
     lg.appendChild(
         text(x+1, y-2, attributes=update({'fill':colors[chart][2],}, label_text_style))('← ' + date_format(date) + ': ' + make_label_text(state, event))
     );
-    return lg;
+    groups[chart].appendChild(lg);
 }
 
+/* old_append_and_move_label
+var last_label_group = groups[event].lastChild;
+last_label_group.setAttribute('transform', make_label_rotation(x, y));
+var last_label_text = last_label_group.lastChild;
+last_label_text.setAttribute('y', y);
+last_label_text.appendChild(
+    svgDocument.createTextNode(', ' + make_label_text(state, e['event']))
+);
+*/
+
 function make_label_text(state, event){
-    return state + ' ' + event;
+    if (event == 'Veto'){
+        return 'vetoed in ' + state
+    } else if (event == 'Law'){
+        return 'became ' + state + ' law'
+    } else {
+        return 'passed ' + state + ' ' + event
+    }
 }
 
 function make_label_rotation(x, y){
@@ -270,6 +348,7 @@ function make_label_rotation(x, y){
 }
 
 // End label helpers
+
 
 function next_event(i){
     if (i < npvp.length - 1){
@@ -293,14 +372,15 @@ function handle_event(i){
 
         var old = last_point(paths['One house']);
         var y = old[1] + evs[state];
-        append_point(paths['One house'], x, y); ///
+        append_point(paths['One house'], x, y);
 
-        // Label it, but only for 'One house' (the uppermost one) to avoid overlap
-        groups['One house'].appendChild(make_label(x, y, e['timestamp'], state, e['event'], 'One house'));
+        make_label(x, y, e['timestamp'], state, e['event'], 'One house');
         
         old = last_point(paths['Both houses']);
         y = old[1] + evs[state];
         append_point(paths['Both houses'], x, y);
+
+        make_label(x, y, e['timestamp'], state, e['event'], 'Both houses');
 
         if (y >= base_y){
             reset_path(paths['Law']);
@@ -323,19 +403,12 @@ function handle_event(i){
         var y = old[1] - evs[state];
         if (x == old[0]){
             // Move and append to the last label rather than generating a new one
-            var last_label_group = groups[event].lastChild;
-            last_label_group.setAttribute('transform', make_label_rotation(x, y));
-            var last_label_text = last_label_group.lastChild;
-            last_label_text.setAttribute('y', y);
-            last_label_text.appendChild(
-                svgDocument.createTextNode(', ' + make_label_text(state, e['event']))
-            );
-
+            append_and_move_label(x, y, ', ' + make_label_text(state, e['event']));
             // Overwrite the last point rather than generating a new one
             paths[event].setAttribute('d', paths[event].getAttribute('d').split(' ').slice(0, -2).join(' '));
             append_point(paths[event], x, y);
         } else {
-            groups[event].appendChild(make_label(x, y, e['timestamp'], state, e['event'], event));
+            make_label(x, y, e['timestamp'], state, e['event'], event);
             append_point(paths[event], x, y);
         }
         // Set start points for the "next" event type now that this one is non-zero
@@ -355,13 +428,16 @@ function render(evt){
     svgDocument = O.ownerDocument;
     svgRoot = svgDocument.documentElement;
 
-    //svgRoot.appendChild(line(padding, padding, chart_end, padding, style={'stroke':'black'}));
-
     //dds['width' ] = chart_end + padding*2
     //dds['height'] = base_y + padding*2
     //dds['viewBox'] = (0, 0, dds['width'], dds['height'])
-    
-    svgRoot.appendChild(text(padding, padding*2, attributes=title_text_style)("Progress of National Popular Vote Legislation"));
+
+    var title = text(padding, padding+fudge, attributes=title_text_style)('Progress of ')
+    var title_link = _create_element('a', {'text-decoration':'underline'});
+    title_link.setAttributeNS(xlinkns, 'xlink:href', "http://nationalpopularvote.com/");
+    title_link.appendChild(svgDocument.createTextNode('National Popular Vote Legislation'));
+    title.appendChild(title_link);
+    svgRoot.appendChild(title);
 
     svgRoot.appendChild(text(chart_end, padding+fudge, attributes=right_text_style)("Electoral votes needed to take effect:"));
 
@@ -376,7 +452,7 @@ function render(evt){
     }
 
     // Create polygons and key 
-    var key_start = title_text_style['font-size'] * 2 + padding;
+    var key_start = (padding + fudge) * 2;
     var box_size = left_text_style['font-size'];
     for (var c in charts){
         var ct = charts[c];
@@ -388,13 +464,22 @@ function render(evt){
         g.appendChild(p)
         svgRoot.appendChild(g);
 
-        g.appendChild(rect(padding, key_start-box_size, box_size, box_size, attributes=color));
+        var r = rect(padding, key_start-box_size+1, box_size, box_size, attributes=color)
+        g.appendChild(r);
         g.appendChild(text(padding+box_size*1.5, key_start, attributes=update({'fill':colors[ct][2],}, left_text_style))(descriptions[ct]));
-        key_start += box_size*1.5;
+        key_start += padding+fudge;
     }
 
     // Add start point
     append_point(paths['One house'], padding, base_y);
+
+    // Group for tooltip contents
+    tip_items = group();
+    svgRoot.appendChild(tip_items);
+
+    // Group for tooltip activation zones
+    tip_zones = group();
+    svgRoot.appendChild(tip_zones);
 
     handle_event(0);
 }
@@ -403,10 +488,10 @@ function finish(){
     for (var c in charts){
         var ct = charts[c]; 
         last = last_point(paths[ct]);
-        append_point(paths[ct], chart_end, last[1]); /// extend to (x for today, last y)
-        append_point(paths[ct], chart_end, base_y);  /// extend to (x for today, base y)
-        close_path(paths[ct]); /// close the path
-        groups[ct].appendChild( /// Add a number for progress
+        append_point(paths[ct], chart_end, last[1]); // extend to (x for today, last y)
+        append_point(paths[ct], chart_end, base_y);  // extend to (x for today, base y)
+        close_path(paths[ct]); // close the path
+        groups[ct].appendChild( // Add a number for progress
             text(chart_end+fudge, last[1]+fudge, attributes=update({'fill':colors[ct][2]}, left_text_style))(270 - (last[1] - padding))
         )
     }
