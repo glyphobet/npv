@@ -386,6 +386,47 @@ function make_label_rotation(x, y){
 // End label helpers
 
 
+function get_previous_y(event){
+    if (paths[event].getAttribute('d') == 'M'){
+        return base_y;
+    } else {
+        return last_point(paths[event])[1];
+    }    
+}
+
+
+function step_to(event, x, old_y, new_y){ // Step function
+    append_point(paths[event], x, old_y);
+    append_point(paths[event], x, new_y);
+    groups[event].appendChild(circle(x, new_y, 2, attributes={'fill':colors[event][1]}));
+}
+
+
+/* // diagonal line. Unused. */
+function diagonal_to(event, x, old_y, new_y){
+    if (event == 'One house' && paths['One house'].getAttribute('d') == 'M'){
+        append_point(paths['One house'], padding, base_y);
+    }
+
+    append_point(paths[event], x, new_y);
+    groups[event].appendChild(circle(x, new_y, 2, attributes={'fill':colors[event][1]}));
+
+    // Set start points for the "next" event type now that this one is non-zero
+    if (event == 'One house' && paths['Both houses'].getAttribute('d') == "M"){
+        reset_path(paths['Both houses']);
+        append_point(paths['Both houses'], x, base_y);
+    } else if (event == 'Both houses' && paths['Law'].getAttribute('d') == "M"){
+        reset_path(paths['Law']);
+        append_point(paths['Law'], x, base_y);
+    }
+
+    // Reset Law points back to zero as this veto re-sets the place where the Law chart should start
+    if (new_y >= base_y){
+        reset_path(paths['Law']);
+    }
+}
+/* */
+
 function next_event(i){
     if (i < npvp.length - 1){
         handle_event(i+1);
@@ -407,14 +448,10 @@ function handle_event(i){
         delete states[state];
         for (var c in charts.slice(0,2)){
             var ct = charts[c];
-            var old = last_point(paths[ct]);
-            var y = old[1] + evs[state];
-            append_point(paths[ct], x, y);
-            groups[ct].appendChild(circle(x, y, 2, attributes={'fill':colors[ct][1]}));
-            make_label(x, y, e['timestamp'], state, e['event'], ct);
-        }
-        if (y >= base_y){
-            reset_path(paths['Law']);
+            var old_y = get_previous_y(ct);
+            var new_y = old_y + evs[state];
+            step_to(ct, x, old_y, new_y);
+            make_label(x, new_y, e['timestamp'], state, e['event'], ct);
         }
 
     } else {
@@ -431,31 +468,14 @@ function handle_event(i){
                 step = 0;
             }
         }
-        var old = last_point(paths[event]);
-        var y = old[1] - step;
-        if (x == old[0]){
-            // Move and append to the last label rather than generating a new one
-            append_and_move_label(x, y, ', ' + make_label_text(state, e['event']));
-            // Overwrite the last point rather than generating a new one
-            paths[event].setAttribute('d', paths[event].getAttribute('d').split(' ').slice(0, -2).join(' '));
-            // remove previous circle
-            groups[event].removeChild(groups[event].lastChild);
-        } else {
-            make_label(x, y, e['timestamp'], state, e['event'], event);
-        }
-        append_point(paths[event], x, y);
-        groups[event].appendChild(circle(x, y, 2, attributes={'fill':colors[event][1]}));
-        // Set start points for the "next" event type now that this one is non-zero
-        if (event == 'One house' && paths['Both houses'].getAttribute('d') == "M"){
-            reset_path(paths['Both houses']);
-            append_point(paths['Both houses'], x, base_y);
-        } else if (event == 'Both houses' && paths['Law'].getAttribute('d') == "M"){
-            reset_path(paths['Law']);
-            append_point(paths['Law'], x, base_y);
-        }
+        var old_y = get_previous_y(event);
+        var new_y = old_y - step;
+        step_to(event, x, old_y, new_y);
+        make_label(x, new_y, e['timestamp'], state, e['event'], event);
     }
     next_event(i);
 }
+
 
 function render(evt){
     svgDocument = evt.target.ownerDocument;
@@ -513,9 +533,6 @@ function render(evt){
         g.appendChild(text(padding+box_size*1.5, key_start, attributes=update({'fill':colors[ct][2],}, left_text_style))(descriptions[ct]));
         key_start += padding+fudge;
     }
-
-    // Add start point
-    append_point(paths['One house'], padding, base_y);
 
     // Group for tooltip contents
     tip_items = group();
