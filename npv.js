@@ -304,10 +304,21 @@ function show_tooltip(zone){
     if (bg.getAttribute('x') == 0){
         var bbox = tip.lastChild.getBBox();
         var fs = parseInt(tip.lastChild.getAttribute('font-size'));
-        bg.setAttribute('x', bbox.x-(fs/2));
+
+        // watch out for tooltips that fall off of one side of the chart or the other
+        var oops = 0;
+        if (bbox.x + bbox.width + fs/2 > chart_end) {
+            oops = chart_end - (bbox.x + bbox.width + fs/2);
+        } else if (bbox.x - fs/2 < 0){
+            oops = -1 * (bbox.x - fs/2);
+        }
+
+        bg.setAttribute('x', bbox.x-(fs/2) + oops);
         bg.setAttribute('y', bbox.y-(fs/3));
         bg.setAttribute('width', bbox.width+fs);
         bg.setAttribute('height', bbox.height+(2*fs/3));
+
+        tip.lastChild.setAttribute('x', parseInt(tip.lastChild.getAttribute('x')) + oops);
     }
     svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 1); 
 }
