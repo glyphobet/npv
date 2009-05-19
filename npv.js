@@ -31,7 +31,7 @@ function date_format(date){
 }
 
 function days(duration){
-    return Math.round(duration / (60 * 60 * 24 * 1000) * 2/3);
+    return Math.round(duration / (60 * 60 * 24 * 1000) * horizontal_scale);
 }
 
 function get(object, key, value){
@@ -111,6 +111,15 @@ function circle(x, y, r, attributes){
     c.setAttribute('cy', y);
     c.setAttribute('r', r);
     return c;
+}
+
+function ellipse(x, y, rx, ry, attributes){
+    var e = _create_element('ellipse', attributes);
+    e.setAttribute('cx', x);
+    e.setAttribute('cy', y);
+    e.setAttribute('rx', rx);
+    e.setAttribute('ry', ry);
+    return e;
 }
 
 function path(d, attributes){
@@ -268,6 +277,7 @@ var states = {};
 
 var padding = 20;
 var base_y = 270 + padding; // 538
+var horizontal_scale = 2/3;
 
 var chart_end = days(new Date() - start) + padding
 
@@ -329,11 +339,11 @@ function hide_tooltip(zone){
 }
 
 function make_label(x, y, date, state, event, chart){
-    var c = circle(x, y, 6, attributes={'opacity':0});
-    c.setAttribute('onmouseover', 'show_tooltip(this);');
-    c.setAttribute('onmouseout' , 'hide_tooltip(this);');
-    c.setAttribute('id', x+','+y);
-    tip_zones.appendChild(c);
+    var z = ellipse(x, y, 6*horizontal_scale, 6, attributes={'opacity':0.0});
+    z.setAttribute('onmouseover', 'show_tooltip(this);');
+    z.setAttribute('onmouseout' , 'hide_tooltip(this);');
+    z.setAttribute('id', x+','+y);
+    tip_zones.appendChild(z);
 
     var g = group(attributes={'opacity':0,});
     g.setAttribute('id', 'tip:'+x+','+y);
@@ -398,7 +408,15 @@ function get_previous_y(event){
 function step_to(event, x, old_y, new_y){ // Step function
     append_point(paths[event], x, old_y);
     append_point(paths[event], x, new_y);
-    groups[event].appendChild(circle(x, new_y, 2, attributes={'fill':colors[event][1]}));
+
+/*    var arrow_size = 4;
+    var arrow_direction = old_y < new_y ? -1 : 1;
+    var arrow = path('M'+
+        x+' '+(new_y)+' '+
+        (x-arrow_size/2*arrow_direction)+' '+(new_y+arrow_size*arrow_direction)+' '+
+        (x+arrow_size/2*arrow_direction)+' '+(new_y+arrow_size*arrow_direction)+
+        'Z', attributes={'fill':colors[event][2], 'stroke':colors[event][2], 'stroke-linejoin':'mitre'});
+    groups[event].appendChild(arrow);*/
 }
 
 
@@ -533,6 +551,9 @@ function render(evt){
         g.appendChild(text(padding+box_size*1.5, key_start, attributes=update({'fill':colors[ct][2],}, left_text_style))(descriptions[ct]));
         key_start += padding+fudge;
     }
+
+    // Base line
+    svgRoot.appendChild(line(padding, base_y, chart_end, base_y, attributes={'stroke':'black', 'stroke-linecap':'square'}));
 
     // Group for tooltip contents
     tip_items = group();
