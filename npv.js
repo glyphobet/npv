@@ -6,6 +6,11 @@ http://creativecommons.org/licenses/by-nc-sa/3.0/us/
 
 Data collected from: http://nationalpopularvote.com/
 Please donate: http://nationalpopularvote.com/pages/donate.php
+
+To-Do:
+ * Don't let tooltips fall off the edges of the graph
+ * Try step graph
+ * Google trends chart overlay
 */
 var svgns="http://www.w3.org/2000/svg";
 var xlinkns="http://www.w3.org/1999/xlink";
