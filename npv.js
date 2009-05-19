@@ -8,7 +8,6 @@ Data collected from: http://nationalpopularvote.com/
 Please donate: http://nationalpopularvote.com/pages/donate.php
 
 To-Do:
- * Don't let tooltips fall off the edges of the graph
  * Try step graph
  * Google trends chart overlay
 */
