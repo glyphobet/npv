@@ -393,21 +393,14 @@ function handle_event(i){
 
     if (event == 'Veto'){
         delete states[state];
-
-        var old = last_point(paths['One house']);
-        var y = old[1] + evs[state];
-        append_point(paths['One house'], x, y);
-        groups['One house'].appendChild(circle(x, y, 2, attributes={'fill':colors['One house'][1]}));
-
-        make_label(x, y, e['timestamp'], state, e['event'], 'One house');
-        
-        old = last_point(paths['Both houses']);
-        y = old[1] + evs[state];
-        append_point(paths['Both houses'], x, y);
-        groups['Both houses'].appendChild(circle(x, y, 2, attributes={'fill':colors['Both houses'][1]}));
-
-        make_label(x, y, e['timestamp'], state, e['event'], 'Both houses');
-
+        for (var c in charts.slice(0,2)){
+            var ct = charts[c];
+            var old = last_point(paths[ct]);
+            var y = old[1] + evs[state];
+            append_point(paths[ct], x, y);
+            groups[ct].appendChild(circle(x, y, 2, attributes={'fill':colors[ct][1]}));
+            make_label(x, y, e['timestamp'], state, e['event'], ct);
+        }
         if (y >= base_y){
             reset_path(paths['Law']);
         }
