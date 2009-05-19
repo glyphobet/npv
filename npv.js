@@ -8,8 +8,10 @@ Data collected from: http://nationalpopularvote.com/
 Please donate: http://nationalpopularvote.com/pages/donate.php
 
 To-Do:
+ * Duplicates (Colorado)
  * Try step graph
  * Google trends chart overlay
+ * Make narrower
 */
 var svgns="http://www.w3.org/2000/svg";
 var xlinkns="http://www.w3.org/1999/xlink";
@@ -29,7 +31,7 @@ function date_format(date){
 }
 
 function days(duration){
-    return Math.round(duration / (60 * 60 * 24 * 1000));
+    return Math.round(duration / (60 * 60 * 24 * 1000) * 2/3);
 }
 
 function get(object, key, value){
@@ -195,7 +197,7 @@ var evs = {
 
 // National Popular Vote progress
 var npvp = [
-    {'timestamp': non_stupid_date(2006,  4,  1), 'state': 'Colorado'      , 'event': 'Senate'  },
+    {'timestamp': non_stupid_date(2006,  4, 17), 'state': 'Colorado'      , 'event': 'Senate'  },
     {'timestamp': non_stupid_date(2006,  5,  1), 'state': 'California'    , 'event': 'Assembly'},
     {'timestamp': non_stupid_date(2006,  8,  1), 'state': 'California'    , 'event': 'Senate'  },
     {'timestamp': non_stupid_date(2006,  9, 30), 'state': 'California'    , 'event': 'Veto'    },
@@ -306,8 +308,8 @@ function show_tooltip(zone){
 
         // watch out for tooltips that fall off of one side of the chart or the other
         var oops = 0;
-        if (bbox.x + bbox.width + fs/2 > chart_end) {
-            oops = chart_end - (bbox.x + bbox.width + fs/2);
+        if (bbox.x + bbox.width + fs/2 > chart_end + padding) {
+            oops = chart_end + padding - (bbox.x + bbox.width + fs/2);
         } else if (bbox.x - fs/2 < 0){
             oops = -1 * (bbox.x - fs/2);
         }
