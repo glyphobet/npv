@@ -418,20 +418,21 @@ function handle_event(i){
         }
 
     } else {
+        var step = evs[state];
         if (event != 'Law'){
             states[state] = get(states, state, 0) + 1;
             if (states[state] == 1){
-                event = 'One house'
+                event = 'One house';
             } else if (states[state] == 2){
-                event = 'Both houses'
+                event = 'Both houses';
             } else {
-                // Second version of a bill passed; do nothing
-                next_event(i);
-                return;
+                // Second version of a bill passed; don't increment
+                event = 'Both houses';
+                step = 0;
             }
         }
         var old = last_point(paths[event]);
-        var y = old[1] - evs[state];
+        var y = old[1] - step;
         if (x == old[0]){
             // Move and append to the last label rather than generating a new one
             append_and_move_label(x, y, ', ' + make_label_text(state, e['event']));
