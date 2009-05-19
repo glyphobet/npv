@@ -392,12 +392,14 @@ function handle_event(i){
         var old = last_point(paths['One house']);
         var y = old[1] + evs[state];
         append_point(paths['One house'], x, y);
+        groups['One house'].appendChild(circle(x, y, 2, attributes={'fill':colors['One house'][1]}));
 
         make_label(x, y, e['timestamp'], state, e['event'], 'One house');
         
         old = last_point(paths['Both houses']);
         y = old[1] + evs[state];
         append_point(paths['Both houses'], x, y);
+        groups['Both houses'].appendChild(circle(x, y, 2, attributes={'fill':colors['Both houses'][1]}));
 
         make_label(x, y, e['timestamp'], state, e['event'], 'Both houses');
 
@@ -425,11 +427,13 @@ function handle_event(i){
             append_and_move_label(x, y, ', ' + make_label_text(state, e['event']));
             // Overwrite the last point rather than generating a new one
             paths[event].setAttribute('d', paths[event].getAttribute('d').split(' ').slice(0, -2).join(' '));
-            append_point(paths[event], x, y);
+            // remove previous circle
+            groups[event].removeChild(groups[event].lastChild);
         } else {
             make_label(x, y, e['timestamp'], state, e['event'], event);
-            append_point(paths[event], x, y);
         }
+        append_point(paths[event], x, y);
+        groups[event].appendChild(circle(x, y, 2, attributes={'fill':colors[event][1]}));
         // Set start points for the "next" event type now that this one is non-zero
         if (event == 'One house' && paths['Both houses'].getAttribute('d') == "M"){
             reset_path(paths['Both houses']);
