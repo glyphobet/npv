@@ -5,7 +5,7 @@ This work is licensed under a Creative Commons Attribution-Noncommercial-Share A
 http://creativecommons.org/licenses/by-nc-sa/3.0/us/
 
 Data collected from: http://nationalpopularvote.com/
-Please donate: http://nationalpopularvote.com/pages/donate.php
+Please donate to NPV: http://nationalpopularvote.com/pages/donate.php
 
 To-Do:
  * Duplicates (Colorado)
@@ -574,7 +574,7 @@ function render(evt){
     credits.appendChild(svgDocument.createTextNode(" \u2022 "))
     credits.appendChild(link('http://creativecommons.org/licenses/by-nc-sa/3.0/us/', "Licensed under Creative Commons"));
     credits.appendChild(svgDocument.createTextNode(" \u2022 "))
-    credits.appendChild(link('http://nationalpopularvote.com/pages/donate.php', "Click here to donate"));
+    credits.appendChild(link('http://nationalpopularvote.com/pages/donate.php', "Click here to donate to NPV"));
     svgRoot.appendChild(credits);
     
     // Create polygons and key 
