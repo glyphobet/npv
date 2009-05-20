@@ -263,6 +263,7 @@ var colors = { //   # normal   # dark     # darker   # light    # lighter
     'Law'         :['#EF002A', '#B32D45', '#9B001C', '#F73E5F', '#F76F87'],
     'Both houses' :['#8506A9', '#6A237E', '#56026E', '#B23AD4', '#BB63D4'],
     'One house'   :['#2A17B1', '#392E85', '#150873', '#5D4BD8', '#7D71D8'],
+    'complement'  :['#E5FB00', '#B0BC2F', '#95A300', '#EDFD3F', '#F1FD72'],
 };
 
 var descriptions = {
@@ -277,13 +278,14 @@ var states = {};
 
 var padding = 20;
 var base_y = 270 + padding; // 538
-var horizontal_scale = 1;//2/3;
+var horizontal_scale = 2/3;
 
 var chart_end = days(new Date() - start) + padding
 
 var paths = {};
 var groups = {};
 var tip_items;
+var tip_hints;
 var tip_zones;
 
 
@@ -295,6 +297,7 @@ function debug(e){
 }
 function show_debug(){
     if (debug_content != '') alert(debug_content);
+    debug_content = '';
 }
 
 
@@ -309,16 +312,28 @@ var fudge = base_text_style['font-size']/2;
 
 
 // Label / tooltip helpers
-function show_tip_zones(){
-    tip_zones.setAttribute('opacity', 1);
-    setTimeout("hide_tip_zones()", 5000);
+var tip_hint_timeout; 
+function show_tip_hints(){
+    clearTimeout(tip_hint_timeout);
+    tip_hints.setAttribute('opacity', 1);
+    clearTimeout(tip_hint_timeout);
+    tip_hint_timeout = setTimeout('hide_tip_hints()', 1000);
 }
 
-function hide_tip_zones(){
-    tip_zones.setAttribute('opacity', 0);
+function hide_tip_hints(){
+    clearTimeout(tip_hint_timeout);
+    var co = tip_hints.getAttribute('opacity') * 100;
+    if (co > 10){
+        tip_hints.setAttribute('opacity', (co - 10) / 100);
+        clearTimeout(tip_hint_timeout);
+        tip_hint_timeout = setTimeout('hide_tip_hints()', 5);
+    } else {
+        tip_hints.setAttribute('opacity', 0);
+    }
 }
 
 function show_tooltip(zone){
+    show_tip_hints();
     var tip = svgDocument.getElementById('tip:'+zone.id);
     var bg = tip.firstChild;
     if (bg.getAttribute('x') == 0){
@@ -348,16 +363,25 @@ function hide_tooltip(zone){
 }
 
 function make_label(x, y, date, state, event, chart){
-    var z = ellipse(x, y, 6*horizontal_scale, 6, attributes={'opacity':1.0});
+    var zone_size = 6;
+    var z = rect(x-zone_size*horizontal_scale, y-zone_size, zone_size*2*horizontal_scale, zone_size*2, attributes={'opacity': 0, 'rx':padding/5, 'ry':padding/5});
     z.setAttribute('onmouseover', 'show_tooltip(this);');
     z.setAttribute('onmouseout' , 'hide_tooltip(this);');
     z.setAttribute('id', x+','+y);
     tip_zones.appendChild(z);
+    
+    var rect_style = {'opacity':0.75, 'rx':padding/5, 'ry':padding/5};
+
+    var hb = rect(x-zone_size*horizontal_scale, y-zone_size, zone_size*2*horizontal_scale, zone_size*2, attributes=update({'stroke':colors['complement'][1], 'fill':colors['complement'][4]}, rect_style));
+    var ht = text(x, y+zone_size-1, attributes=update({'fill':colors['complement'][2]}, label_text_style))('?');
+    var hg = group();
+    hg.appendChild(hb);
+    hg.appendChild(ht);
+    tip_hints.appendChild(hg);
 
     var g = group(attributes={'opacity':0,});
     g.setAttribute('id', 'tip:'+x+','+y);
-    g.appendChild(rect(0,0,0,0, attributes={'fill':'white', 'stroke':'white', 'opacity':0.75, 'rx':padding/5, 'ry':padding/5}));
-    //g.appendChild(path('M'+x+' '+y+' '+(x+4)+' '+(y-padding+4+3)+' '+(x-4)+' '+(y-padding+4+3)+'Z', attributes={'fill':'white', 'opacity':0.75}))
+    g.appendChild(rect(0,0,0,0, attributes=update({'stroke':colors[chart][1], 'fill':'white'}, rect_style)));
     g.appendChild(text(x, y - padding/2, attributes=update({'fill':colors[chart][2]}, label_text_style))(date_format(date) + ': ' + make_label_text(state, event)));
     tip_items.appendChild(g);
 }
@@ -366,8 +390,8 @@ function append_and_move_label(x, y, extra){
     tip_items.lastChild.lastChild.appendChild(svgDocument.createTextNode(extra));
     tip_items.lastChild.lastChild.setAttribute('x', x);
     tip_items.lastChild.lastChild.setAttribute('y', y - padding/2);
-    tip_zones.lastChild.setAttribute('cx', x);
-    tip_zones.lastChild.setAttribute('cy', y);
+    tip_hints.lastChild.setAttribute('cx', x);
+    tip_hints.lastChild.setAttribute('cy', y);
 }
 
 function old_make_label(x, y, date, state, event, chart){
@@ -565,18 +589,22 @@ function render(evt){
     // Base line
     svgRoot.appendChild(line(padding, base_y, chart_end, base_y, attributes={'stroke':'black', 'stroke-linecap':'square', 'opacity':1}));
 
+    // Group for tooltip hints
+    tip_hints = group(attributes={'opacity':0})
+    svgRoot.appendChild(tip_hints);
+    
     // Group for tooltip contents
     tip_items = group();
     svgRoot.appendChild(tip_items);
-
+    
     // Group for tooltip activation zones
-    tip_zones = group(attributes={'opacity':0});
+    tip_zones = group(attributes={'opacity':1});
     svgRoot.appendChild(tip_zones);
 
     var bgrd = rect(padding, padding, chart_end-padding, base_y-padding, attributes={'opacity':0});
     tip_zones.appendChild(bgrd);
-    bgrd.setAttribute('onmousemove', 'show_tip_zones()');
-    bgrd.setAttribute('onmouseout', 'hide_tip_zones()');
+    bgrd.setAttribute('onmousemove', 'show_tip_hints()');
+    bgrd.setAttribute('onmouseout', 'hide_tip_hints()');
 
     handle_event(0);
 }
