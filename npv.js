@@ -324,20 +324,30 @@ var fudge = base_text_style['font-size']/2;
 var tip_hint_timeout; 
 function show_tip_hints(){
     clearTimeout(tip_hint_timeout);
-    tip_hints.setAttribute('opacity', 1);
-    clearTimeout(tip_hint_timeout);
-    tip_hint_timeout = setTimeout('hide_tip_hints()', 1000);
+    var o = parseFloat(tip_hints.getAttribute('opacity'));
+    if (o < 0.9){
+        tip_hints.setAttribute('opacity', o + 0.1);
+        clearTimeout(tip_hint_timeout);
+        tip_hint_timeout = setTimeout('show_tip_hints()', 10);
+    } else {
+        tip_hints.setAttribute('opacity', 1);
+        clearTimeout(tip_hint_timeout);
+        tip_hint_timeout = setTimeout('hide_tip_hints()', 1000);
+        show_debug();
+    }
 }
 
 function hide_tip_hints(){
+    // The weird *10 /10 crap avoids a flicker due to imprecisions in Firefox's floating point arithmetic
     clearTimeout(tip_hint_timeout);
-    var co = tip_hints.getAttribute('opacity') * 100;
-    if (co > 10){
-        tip_hints.setAttribute('opacity', (co - 10) / 100);
+    var o = parseFloat(tip_hints.getAttribute('opacity')) * 10;
+    if (o > 1){
+        tip_hints.setAttribute('opacity', (o - 1)/10);
         clearTimeout(tip_hint_timeout);
-        tip_hint_timeout = setTimeout('hide_tip_hints()', 5);
+        tip_hint_timeout = setTimeout('hide_tip_hints()', 10);
     } else {
         tip_hints.setAttribute('opacity', 0);
+        show_debug();
     }
 }
 
