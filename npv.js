@@ -48,6 +48,15 @@ function update(aa, other){
     }
     return aa;
 }
+
+function object_length(obj){
+    var l = 0;
+    for (var p in obj){
+        l += 1;
+    }
+    return l;
+}
+
 // End JavaScript tools
 
 
@@ -508,15 +517,18 @@ function handle_event(i){
     } else {
         var step = evs[state];
         if (event != 'Law'){
-            states[state] = get(states, state, 0) + 1;
-            if (states[state] == 1){
-                event = 'One house';
-            } else if (states[state] == 2){
-                event = 'Both houses';
-            } else {
+            states[state] = get(states, state, {});
+            if (states[state].hasOwnProperty(event)){
                 // Second version of a bill passed; don't increment
+                debug(state);
+                step = 0;                
+            } else {
+                states[state][event] = true;
+            }
+            if (object_length(states[state]) == 1){
+                event = 'One house';
+            } else if (object_length(states[state]) == 2){
                 event = 'Both houses';
-                step = 0;
             }
         }
         var old_y = get_previous_y(event);
