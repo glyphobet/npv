@@ -569,11 +569,11 @@ function render(evt){
         svgRoot.appendChild(text(tick_x, base_y + fudge*3, attributes=left_text_style)(y+1));
     }
 
-    var credits = text(chart_end/2, base_y + padding *2, attributes=credits_text_style)("© 2009 ");
+    var credits = text(chart_end/2, base_y + padding *2, attributes=credits_text_style)("\u00A9 2009 ");
     credits.appendChild(link('http://glyphobet.net', "Matt Chisholm"));
-    credits.appendChild(svgDocument.createTextNode(" • "))
+    credits.appendChild(svgDocument.createTextNode(" \u2022 "))
     credits.appendChild(link('http://creativecommons.org/licenses/by-nc-sa/3.0/us/', "Licensed under Creative Commons"));
-    credits.appendChild(svgDocument.createTextNode(" • "))
+    credits.appendChild(svgDocument.createTextNode(" \u2022 "))
     credits.appendChild(link('http://nationalpopularvote.com/pages/donate.php', "Click here to donate"));
     svgRoot.appendChild(credits);
     
@@ -595,7 +595,6 @@ function render(evt){
         g.appendChild(text(padding+box_size*1.5, key_start, attributes=update({'fill':colors[ct][2],}, left_text_style))(descriptions[ct]));
         key_start += padding+fudge;
     }
-//    paths['One house'].setAttribute('onmouseout' , 'hide_tip_zones()');
 
     // Base line
     svgRoot.appendChild(line(padding, base_y, chart_end, base_y, attributes={'stroke':'black', 'stroke-linecap':'square', 'opacity':1}));
