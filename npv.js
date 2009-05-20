@@ -520,7 +520,6 @@ function handle_event(i){
             states[state] = get(states, state, {});
             if (states[state].hasOwnProperty(event)){
                 // Second version of a bill passed; don't increment
-                debug(state);
                 step = 0;                
             } else {
                 states[state][event] = true;
