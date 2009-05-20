@@ -257,6 +257,7 @@ var npvp = [
     {'timestamp': non_stupid_date(2009,  4, 21), 'state': 'Nevada'        , 'event': 'Assembly'},
     {'timestamp': non_stupid_date(2009,  4, 28), 'state': 'Washington'    , 'event': 'Law'     },
     {'timestamp': non_stupid_date(2009,  5, 12), 'state': 'Connecticut'   , 'event': 'House'   },
+    {'timestamp': non_stupid_date(2009,  5, 19), 'state': 'Rhode Island'  , 'event': 'Senate'  },
     // NOTE: Add new events here
 ];
 
