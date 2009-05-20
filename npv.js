@@ -293,6 +293,8 @@ var groups = {};
 var tip_items;
 var tip_hints;
 var tip_zones;
+var state_dots = {}
+var state_group;
 
 
 // Debugging
@@ -348,8 +350,8 @@ function hide_tip_hints(){
     }
 }
 
-function show_tooltip(zone){
-    show_tip_hints();
+function show_tooltip(zone, state){
+    hide_tip_hints();
     var tip = svgDocument.getElementById('tip:'+zone.id);
     var bg = tip.firstChild;
     if (bg.getAttribute('x') == 0){
@@ -372,17 +374,19 @@ function show_tooltip(zone){
         tip.lastChild.setAttribute('x', parseInt(tip.lastChild.getAttribute('x')) + oops);
     }
     svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 1); 
+    state_dots[state].setAttribute('opacity', 1);
 }
 
-function hide_tooltip(zone){
+function hide_tooltip(zone, state){
+    state_dots[state].setAttribute('opacity', 0);
     svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 0);
 }
 
 function make_label(x, y, date, state, event, chart){
     var zone_size = 6;
     var z = rect(x-zone_size*horizontal_scale, y-zone_size, zone_size*2*horizontal_scale, zone_size*2, attributes={'opacity': 0, 'rx':padding/5, 'ry':padding/5});
-    z.setAttribute('onmouseover', 'show_tooltip(this);');
-    z.setAttribute('onmouseout' , 'hide_tooltip(this);');
+    z.setAttribute('onmouseover', 'show_tooltip(this, "'+state+'");');
+    z.setAttribute('onmouseout' , 'hide_tooltip(this, "'+state+'");');
     z.setAttribute('id', x+','+y);
     tip_zones.appendChild(z);
     
@@ -400,6 +404,13 @@ function make_label(x, y, date, state, event, chart){
     g.appendChild(rect(0,0,0,0, attributes=update({'stroke':colors[chart][1], 'fill':'white'}, rect_style)));
     g.appendChild(text(x, y - padding/2, attributes=update({'fill':colors[chart][2]}, label_text_style))(date_format(date) + ': ' + make_label_text(state, event)));
     tip_items.appendChild(g);
+    
+    if (! state_dots.hasOwnProperty(state)){
+        state_dots[state] = group({'opacity':0});
+        state_group.appendChild(state_dots[state]);
+    }
+    var d = circle(x, y, 4, {'fill':colors[chart][1]});
+    state_dots[state].appendChild(d);
 }
 
 function append_and_move_label(x, y, extra){
@@ -610,6 +621,9 @@ function render(evt){
     tip_hints = group(attributes={'opacity':0})
     svgRoot.appendChild(tip_hints);
     
+    state_group = group();
+    svgRoot.appendChild(state_group);
+    
     // Group for tooltip contents
     tip_items = group();
     svgRoot.appendChild(tip_items);
@@ -618,7 +632,7 @@ function render(evt){
     tip_zones = group(attributes={'opacity':1});
     svgRoot.appendChild(tip_zones);
 
-    var bgrd = rect(padding, padding, chart_end-padding, base_y-padding, attributes={'opacity':0});
+    var bgrd = rect(padding, padding*2, chart_end-padding, base_y-padding*2, attributes={'opacity':0.0});
     tip_zones.appendChild(bgrd);
     bgrd.setAttribute('onmousemove', 'show_tip_hints()');
     bgrd.setAttribute('onmouseout', 'hide_tip_hints()');
