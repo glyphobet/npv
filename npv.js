@@ -641,6 +641,8 @@ function finish(){
         )
     }
 
+    show_tip_hints();
+
     show_debug();
 }
 
