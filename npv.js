@@ -8,10 +8,7 @@ Data collected from: http://nationalpopularvote.com/
 Please donate to NPV: http://nationalpopularvote.com/pages/donate.php
 
 To-Do:
- * Duplicates (Colorado)
- * Try step graph
  * Google trends chart overlay
- * Make narrower
 */
 var svgns="http://www.w3.org/2000/svg";
 var xlinkns="http://www.w3.org/1999/xlink";
