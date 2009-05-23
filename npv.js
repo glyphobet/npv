@@ -562,13 +562,18 @@ function render(evt){
     svgDocument = evt.target.ownerDocument;
     svgRoot = svgDocument.documentElement;
 
-    svgRoot.setAttribute('width' , chart_end + padding*2);
-    svgRoot.setAttribute('height', base_y + padding*2);
-    svgRoot.setAttribute('viewBox', '0 0 '+(chart_end + padding*2)+' '+(base_y + padding*2)); // might not need this
-    var piframe = parent.document.getElementById('npv-graph');
-    if(piframe){
-        piframe.setAttribute('width' , chart_end + padding*2);
-        piframe.setAttribute('height', base_y + padding*2);
+    var width  = chart_end + padding*2;
+    var height = base_y + padding*2;
+
+    svgRoot.setAttribute('width' , width );
+    svgRoot.setAttribute('height', height);
+    svgRoot.setAttribute('viewBox', '0 0 '+width+' '+height); // might not need this
+    svgRoot.setAttribute('style', 'background-color:#fff;');
+
+    if(window.frameElement){
+        // If this is inside an IFRAME, set the IFRAME's size accordingly
+        window.frameElement.width  = width ;
+        window.frameElement.height = height;
     }
 
     var title = text(padding, padding+fudge, attributes=title_text_style)('Progress of the ')
@@ -581,14 +586,14 @@ function render(evt){
     svgRoot.appendChild(text(chart_end+fudge, padding+fudge, attributes=left_text_style)(270));
 
     // Date tick-marks
-    svgRoot.appendChild(text(padding, base_y + fudge*3, attributes=left_text_style)(date_format(start)));
+    svgRoot.appendChild(text(padding, base_y + padding, attributes=left_text_style)(date_format(start)));
     for (y=start.getFullYear(); y<(new Date()).getFullYear(); y++){
         tick = non_stupid_date(y+1, 1, 1);
         tick_x = days(tick - start) + padding;
-        svgRoot.appendChild(text(tick_x, base_y + fudge*3, attributes=left_text_style)(y+1));
+        svgRoot.appendChild(text(tick_x, base_y + padding, attributes=left_text_style)(y+1));
     }
 
-    var credits = text(chart_end/2, base_y + padding *2, attributes=credits_text_style)("\u00A9 2009 ");
+    var credits = text(chart_end/2, base_y + padding *1.875, attributes=credits_text_style)("\u00A9 2009 ");
     credits.appendChild(link('http://glyphobet.net', "Matt Chisholm"));
     credits.appendChild(svgDocument.createTextNode(" \u2022 "))
     credits.appendChild(link('http://creativecommons.org/licenses/by-nc-sa/3.0/us/', "Licensed under Creative Commons"));
