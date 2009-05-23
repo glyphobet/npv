@@ -638,10 +638,10 @@ function render(evt){
     tip_zones = group(attributes={'opacity':1});
     svgRoot.appendChild(tip_zones);
 
-    var bgrd = rect(padding, padding*2, chart_end-padding, base_y-padding*2, attributes={'opacity':0.0});
-    tip_zones.appendChild(bgrd);
-    bgrd.setAttribute('onmousemove', 'show_tip_hints()');
-    bgrd.setAttribute('onmouseout', 'hide_tip_hints()');
+    var tip_zone_hover = rect(padding, padding*2, chart_end-padding, base_y-padding*2, attributes={'opacity':0.0});
+    tip_zones.appendChild(tip_zone_hover);
+    tip_zone_hover.setAttribute('onmousemove', 'show_tip_hints()');
+    tip_zone_hover.setAttribute('onmouseout', 'hide_tip_hints()');
 
     handle_event(0);
 }
