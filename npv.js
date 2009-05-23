@@ -287,7 +287,7 @@ var padding = 20;
 var base_y = 270 + padding; // 538
 var horizontal_scale = 2/3;
 
-var chart_end = days(new Date() - start) + padding
+var chart_end;
 
 var paths = {};
 var groups = {};
@@ -562,6 +562,14 @@ function render(evt){
     svgDocument = evt.target.ownerDocument;
     svgRoot = svgDocument.documentElement;
 
+    // Get user-defined horizontal scale from parent IFRAME
+    if (window.frameElement && window.frameElement.hasAttribute('hscale')){
+        var user_hscale = parseFloat(window.frameElement.getAttribute('hscale'));
+        if (user_hscale){
+            horizontal_scale = Math.max(0.56, user_hscale);
+        }
+    }
+    chart_end = days(new Date() - start) + padding
     var width  = chart_end + padding*2;
     var height = base_y + padding*2;
 
