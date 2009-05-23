@@ -565,7 +565,7 @@ function render(evt){
     svgRoot.setAttribute('width' , chart_end + padding*2);
     svgRoot.setAttribute('height', base_y + padding*2);
     svgRoot.setAttribute('viewBox', '0 0 '+(chart_end + padding*2)+' '+(base_y + padding*2)); // might not need this
-    var piframe = parent.document.getElementById('iframe');
+    var piframe = parent.document.getElementById('npv-graph');
     if(piframe){
         piframe.setAttribute('width' , chart_end + padding*2);
         piframe.setAttribute('height', base_y + padding*2);
