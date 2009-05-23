@@ -571,9 +571,21 @@ function render(evt){
     svgRoot.setAttribute('style', 'background-color:#fff;');
 
     if(window.frameElement){
-        // If this is inside an IFRAME, set the IFRAME's size accordingly
-        window.frameElement.width  = width ;
-        window.frameElement.height = height;
+        // If this is inside an unsized IFRAME, set the IFRAME's size accordingly
+        if (! window.frameElement.width ) {
+            if (window.frameElement.height) {
+                window.frameElement.width = width + 24;
+            } else {
+                window.frameElement.width = width;
+            }
+        }
+        if (! window.frameElement.height) {
+            if (window.frameElement.width) {
+                window.frameElement.height = height + 24;
+            } else {
+                window.frameElement.height = height;
+            }
+        }
     }
 
     var title = text(padding, padding+fudge, attributes=title_text_style)('Progress of the ')
