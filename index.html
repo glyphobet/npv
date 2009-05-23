@@ -11,7 +11,7 @@ Please donate to NPV: http://nationalpopularvote.com/pages/donate.php
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Progress of National Popular Vote Legislation</title>
+    <title>Progress of the National Popular Vote plan</title>
     <link rel="stylesheet" href="http://glyphobet.net/css/reset.css" type="text/css" media="all"/>
     <style>
       body {
@@ -27,9 +27,20 @@ Please donate to NPV: http://nationalpopularvote.com/pages/donate.php
         margin-top: 1.5em;
       }
     </style>
-      </head>
-  <body>
+	<script>
+		function write_email(){
+			var echars=[109,97,116,116,45,110,112,118,64,116,104,101,111,114,121,46,111,114,103];
+			var estr='';
+			for(var i in echars){
+				estr+=unescape('%'+echars[i].toString(16));
+			}
+			document.getElementById('email').setAttribute('href','ma'+'i'+'lt'+'o:'+estr);
+		}
+	</script>
+  </head>
+  <body onload="write_email();">
     <iframe id="iframe" src="npv.svg"></iframe>
+	<p>Please <a id="email">email me</a> if there are recent events missing from this chart.</p>
     <p>Put this chart on your own web page with the following HTML code:</p>
     <textarea readonly cols="67" rows="1"><iframe id="iframe" src="http://glyphobet.net/npv/npv.svg"></iframe></textarea>
     <p style="font-size:8px;">

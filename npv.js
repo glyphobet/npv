@@ -571,8 +571,8 @@ function render(evt){
         piframe.setAttribute('height', base_y + padding*2);
     }
 
-    var title = text(padding, padding+fudge, attributes=title_text_style)('Progress of ')
-    var title_link = link("http://nationalpopularvote.com/", "National Popular Vote Legislation");
+    var title = text(padding, padding+fudge, attributes=title_text_style)('Progress of the ')
+    var title_link = link("http://nationalpopularvote.com/", "National Popular Vote plan");
     title.appendChild(title_link);
     svgRoot.appendChild(title);
 

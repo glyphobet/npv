@@ -9,5 +9,7 @@ http://creativecommons.org/licenses/by-nc-sa/3.0/us/
 Data collected from: http://nationalpopularvote.com/
 Please donate to NPV: http://nationalpopularvote.com/pages/donate.php
 -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" onload="render(evt);" font-family="Trebuchet MS"><script xlink:href="npv.js" />
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" onload="render(evt);" font-family="Trebuchet MS">
+  <script xlink:href="npv.js" />
+  <title>Progress of the National Popular Vote plan</title>
 </svg>
