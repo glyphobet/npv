@@ -236,8 +236,8 @@ var npvp = [
     {timestamp: non_stupid_date(2008,  3,  4), state: 'Hawaii'        , 'event': 'House'   },
     {timestamp: non_stupid_date(2008,  3,  4), state: 'Hawaii'        , 'event': 'Senate'  },
     {timestamp: non_stupid_date(2008,  3, 19), state: 'Vermont'       , 'event': 'Senate'  },
-    {timestamp: non_stupid_date(2008,  4,  2), state: 'Maine'         , 'event': 'Senate'  },
     {timestamp: non_stupid_date(2008,  4,  7), state: 'Illinois'      , 'event': 'Law'     },
+    {timestamp: non_stupid_date(2008,  4, 14), state: 'Maine'         , 'event': 'Senate'  },
     {timestamp: non_stupid_date(2008,  4, 24), state: 'Vermont'       , 'event': 'House'   },
     {timestamp: non_stupid_date(2008,  5,  1), state: 'Hawaii'        , 'event': 'Law'     },
     {timestamp: non_stupid_date(2008,  5, 16), state: 'Vermont'       , 'event': 'Veto'    },
@@ -258,6 +258,7 @@ var npvp = [
     {timestamp: non_stupid_date(2009,  4, 28), state: 'Washington'    , 'event': 'Law'     },
     {timestamp: non_stupid_date(2009,  5, 12), state: 'Connecticut'   , 'event': 'House'   },
     {timestamp: non_stupid_date(2009,  5, 19), state: 'Rhode Island'  , 'event': 'Senate'  },
+    {timestamp: non_stupid_date(2009,  6, 24), state: 'Delaware'      , 'event': 'House'   },
     // NOTE: Add new events here
 ];
 
