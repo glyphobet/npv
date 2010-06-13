@@ -259,6 +259,8 @@ var npvp = [
     {timestamp: non_stupid_date(2009,  5, 12), state: 'Connecticut'   , 'event': 'House'   },
     {timestamp: non_stupid_date(2009,  5, 19), state: 'Rhode Island'  , 'event': 'Senate'  },
     {timestamp: non_stupid_date(2009,  6, 24), state: 'Delaware'      , 'event': 'House'   },
+    {timestamp: non_stupid_date(2010,  6,  2), state: 'Massachusetts' , 'event': 'House'   },
+    {timestamp: non_stupid_date(2010,  6,  7), state: 'New York'      , 'event': 'Senate'  }
     // NOTE: Add new events here
 ];
 
@@ -322,7 +324,7 @@ var fudge = base_text_style['font-size']/2;
 
 
 // Label / tooltip helpers
-var tip_hint_timeout; 
+var tip_hint_timeout;
 function show_tip_hints(){
     clearTimeout(tip_hint_timeout);
     var o = parseFloat(tip_hints.getAttribute('opacity'));
@@ -375,7 +377,7 @@ function show_tooltip(zone, state){
 
         tip.lastChild.setAttribute('x', parseInt(tip.lastChild.getAttribute('x')) + oops);
     }
-    svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 1); 
+    svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 1);
     state_dots[state].setAttribute('opacity', 1);
 }
 
@@ -391,7 +393,7 @@ function make_label(x, y, date, state, event, chart){
     z.setAttribute('onmouseout' , 'hide_tooltip(this, "'+state+'");');
     z.setAttribute('id', x+','+y);
     tip_zones.appendChild(z);
-    
+
     var rect_style = {'opacity':0.75, 'rx':padding/5, 'ry':padding/5};
 
     var hb = rect(x-zone_size*horizontal_scale, y-zone_size, zone_size*2*horizontal_scale, zone_size*2, attributes=update({'stroke':colors['complement'][1], 'fill':colors['complement'][4]}, rect_style));
@@ -406,7 +408,7 @@ function make_label(x, y, date, state, event, chart){
     g.appendChild(rect(0,0,0,0, attributes=update({'stroke':colors[chart][1], 'fill':'white'}, rect_style)));
     g.appendChild(text(x, y - padding/2, attributes=update({'fill':colors[chart][2]}, label_text_style))(date_format(date) + ': ' + make_label_text(state, event)));
     tip_items.appendChild(g);
-    
+
     if (! state_dots.hasOwnProperty(state)){
         state_dots[state] = group({'opacity':0});
         state_group.appendChild(state_dots[state]);
@@ -463,7 +465,7 @@ function get_previous_y(event){
         return base_y;
     } else {
         return last_point(paths[event])[1];
-    }    
+    }
 }
 
 
@@ -510,7 +512,7 @@ function diagonal_to(event, x, old_y, new_y){
 function next_event(i){
     if (i < npvp.length - 1){
         handle_event(i+1);
-/*        setTimeout('handle_event('+(i+1)+')', 
+/*        setTimeout('handle_event('+(i+1)+')',
             (npvp[i+1]['timestamp'] - npvp[i]['timestamp'])/10000000
         );*/
     } else {
@@ -540,7 +542,7 @@ function handle_event(i){
             states[state] = get(states, state, {});
             if (states[state].hasOwnProperty(event)){
                 // Second version of a bill passed; don't increment
-                step = 0;                
+                step = 0;
             } else {
                 states[state][event] = true;
             }
@@ -621,8 +623,8 @@ function render(evt){
     credits.appendChild(svgDocument.createTextNode(" \u2022 "))
     credits.appendChild(link('http://nationalpopularvote.com/pages/donate.php', "Click here to donate to NPV"));
     svgRoot.appendChild(credits);
-    
-    // Create polygons and key 
+
+    // Create polygons and key
     var key_start = (padding + fudge) * 2;
     var box_size = left_text_style['font-size'];
     for (var c in charts){
@@ -647,14 +649,14 @@ function render(evt){
     // Group for tooltip hints
     tip_hints = group(attributes={'opacity':0})
     svgRoot.appendChild(tip_hints);
-    
+
     state_group = group();
     svgRoot.appendChild(state_group);
-    
+
     // Group for tooltip contents
     tip_items = group();
     svgRoot.appendChild(tip_items);
-    
+
     // Group for tooltip activation zones
     tip_zones = group(attributes={'opacity':1});
     svgRoot.appendChild(tip_zones);
@@ -669,7 +671,7 @@ function render(evt){
 
 function finish(){
     for (var c in charts){
-        var ct = charts[c]; 
+        var ct = charts[c];
         last = last_point(paths[ct]);
         append_point(paths[ct], chart_end, last[1]); // extend to (x for today, last y)
         append_point(paths[ct], chart_end, base_y);  // extend to (x for today, base y)
