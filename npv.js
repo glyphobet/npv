@@ -165,6 +165,7 @@ var evs = {
  'Colorado': 9,
  'Connecticut': 7,
  'Delaware': 3,
+ 'District of Columbia': 3,
  'Florida': 27,
  'Georgia': 15,
  'Hawaii': 4,
@@ -260,7 +261,12 @@ var npvp = [
     {timestamp: non_stupid_date(2009,  5, 19), state: 'Rhode Island'  , 'event': 'Senate'  },
     {timestamp: non_stupid_date(2009,  6, 24), state: 'Delaware'      , 'event': 'House'   },
     {timestamp: non_stupid_date(2010,  6,  2), state: 'Massachusetts' , 'event': 'House'   },
-    {timestamp: non_stupid_date(2010,  6,  7), state: 'New York'      , 'event': 'Senate'  }
+    {timestamp: non_stupid_date(2010,  6,  7), state: 'New York'      , 'event': 'Senate'  },
+    {timestamp: non_stupid_date(2010,  7,  8), state: 'District of Columbia', 'event':'Comittee'},
+    {timestamp: non_stupid_date(2010,  7,  8), state: 'District of Columbia', 'event':'Comittee '},
+    {timestamp: non_stupid_date(2010,  7, 15), state: 'Massachusetts' , 'event': 'Senate'  },
+    {timestamp: non_stupid_date(2010,  8,  4), state: 'Massachusetts' , 'event': 'Law'     },
+    {timestamp: non_stupid_date(2010,  9, 21), state: 'District of Columbia', 'event': 'Law'    },
     // NOTE: Add new events here
 ];
 
