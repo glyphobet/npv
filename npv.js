@@ -634,7 +634,7 @@ function render(evt){
         }
     }
     chart_end = days(new Date() - start) + padding
-    var width  = chart_end + padding*2;
+    var width  = chart_end + padding*4;
     var height = base_y + padding*2;
 
     svgRoot.setAttribute('width' , width );
@@ -737,8 +737,11 @@ function finish(){
         append_point(paths[ct], chart_end, last[1]); // extend to (x for today, last y)
         append_point(paths[ct], chart_end, base_y);  // extend to (x for today, base y)
         close_path(paths[ct]); // close the path
-        groups[ct].appendChild( // Add a number for progress
-            text(chart_end+fudge, last[1]+fudge, attributes=update({'fill':colors[ct][2]}, left_text_style))(270 - (last[1] - padding))
+
+        // Add a number for progress
+        var progress = 270 - (last[1] - padding);
+        groups[ct].appendChild(
+            text(chart_end+fudge, last[1]+fudge, attributes=update({'fill':colors[ct][2]}, left_text_style))(progress + ' (' + (progress/270*100).toFixed(0) + '%)')
         )
     }
 
