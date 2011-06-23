@@ -324,6 +324,11 @@ var npvp = [
   {timestamp:non_stupid_date(2011,  2, 23), state:'VT', 'event':'Senate'  },
   {timestamp:non_stupid_date(2011,  4, 15), state:'VT', 'event':'House'   },
   {timestamp:non_stupid_date(2011,  4, 23), state:'VT', 'event':'Law'     },
+  {timestamp:non_stupid_date(2011,  5, 19), state:'CA', 'event':'Assembly'},
+  {timestamp:non_stupid_date(2011,  6,  7), state:'DE', 'event':'House'   },
+  {timestamp:non_stupid_date(2011,  6,  7), state:'NY', 'event':'Senate'  },
+  {timestamp:non_stupid_date(2011,  6, 16), state:'RI', 'event':'Senate'  },
+  // {timestamp:non_stupid_date(2011, , ), state:'', 'event':''},
   // NOTE: Add new events here
 ];
 
