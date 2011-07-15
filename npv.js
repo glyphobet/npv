@@ -597,13 +597,15 @@ function handle_event(i){
     var event = e['event'];
     var state = e['state'];
     var x = days(e['timestamp'] - start) + padding;
+    var old_x, old_y;
 
     if (event == 'Veto'){
         delete states[state];
+        var ct;
         for (var c in charts.slice(0,2)){
-            var ct = charts[c];
-            var old_y = get_previous_y(ct);
-            var new_y = old_y + evs[state];
+            ct = charts[c];
+            old_y = get_previous_y(ct);
+            new_y = old_y + evs[state];
             step_to(ct, x, old_y, new_y);
             make_label(x, new_y, e['timestamp'], state, e['event'], ct);
         }
@@ -624,8 +626,8 @@ function handle_event(i){
                 event = 'Both houses';
             }
         }
-        var old_y = get_previous_y(event);
-        var new_y = old_y - step;
+        old_y = get_previous_y(event);
+        new_y = old_y - step;
         step_to(event, x, old_y, new_y);
         make_label(x, new_y, e['timestamp'], state, e['event'], event);
     }
