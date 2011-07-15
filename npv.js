@@ -328,6 +328,7 @@ var npvp = [
   {timestamp:non_stupid_date(2011,  6,  7), state:'DE', 'event':'House'   },
   {timestamp:non_stupid_date(2011,  6,  7), state:'NY', 'event':'Senate'  },
   {timestamp:non_stupid_date(2011,  6, 16), state:'RI', 'event':'Senate'  },
+  {timestamp:non_stupid_date(2011,  7, 14), state:'CA', 'event':'Senate'  },
   // {timestamp:non_stupid_date(2011, , ), state:'', 'event':''},
   // NOTE: Add new events here
 ];
