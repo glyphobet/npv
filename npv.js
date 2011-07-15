@@ -16,9 +16,9 @@ var svgRoot;
 var svgDocument;
 
 
-// JavaScript fixes and tools that Python already has
-function non_stupid_date(year, month_not_month_minus_one, day){
-    // WHAT THE FUCK IS WRONG WITH THIS FUCKING LANGUAGE
+// JavaScript date tool improvements
+function make_date(year, month_not_month_minus_one, day){
+    // Who counts months from zero? JavaScript, that's who. And nobody else.
     return new Date(year, month_not_month_minus_one - 1, day);
 }
 
@@ -267,69 +267,69 @@ var evs = {
 
 // National Popular Vote progress
 var npvp = [
-  {timestamp:non_stupid_date(2006,  4, 17), state:'CO', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2006,  5,  1), state:'CA', 'event':'Assembly'},
-  {timestamp:non_stupid_date(2006,  8,  1), state:'CA', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2006,  9, 30), state:'CA', 'event':'Veto'    },
-  {timestamp:non_stupid_date(2007,  1, 24), state:'CO', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2007,  2, 14), state:'HI', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2007,  3, 21), state:'AR', 'event':'House'   },
-  {timestamp:non_stupid_date(2007,  3, 28), state:'MD', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2007,  4,  2), state:'MD', 'event':'House'   },
-  {timestamp:non_stupid_date(2007,  4,  5), state:'HI', 'event':'House'   },
-  {timestamp:non_stupid_date(2007,  4, 10), state:'MD', 'event':'Law'     },
-  {timestamp:non_stupid_date(2007,  5,  2), state:'IL', 'event':'House'   },
-  {timestamp:non_stupid_date(2007,  5,  3), state:'HI', 'event':'Veto'    },
-  {timestamp:non_stupid_date(2007,  5, 14), state:'NC', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2007,  5, 14), state:'CA', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2007,  5, 31), state:'IL', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2007, 12, 13), state:'NJ', 'event':'Assembly'},
-  {timestamp:non_stupid_date(2008,  1,  3), state:'NJ', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2008,  1,  9), state:'IL', 'event':'House'   },
-  {timestamp:non_stupid_date(2008,  1, 13), state:'NJ', 'event':'Law'     },
-  {timestamp:non_stupid_date(2008,  2, 18), state:'WA', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2008,  3,  4), state:'HI', 'event':'House'   },
-  {timestamp:non_stupid_date(2008,  3,  4), state:'HI', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2008,  3, 19), state:'VT', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2008,  4,  7), state:'IL', 'event':'Law'     },
-  {timestamp:non_stupid_date(2008,  4, 14), state:'ME', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2008,  4, 24), state:'VT', 'event':'House'   },
-  {timestamp:non_stupid_date(2008,  5,  1), state:'HI', 'event':'Law'     },
-  {timestamp:non_stupid_date(2008,  5, 16), state:'VT', 'event':'Veto'    },
-  {timestamp:non_stupid_date(2008,  5, 27), state:'RI', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2008,  6, 20), state:'RI', 'event':'House'   },
-  {timestamp:non_stupid_date(2008,  6, 30), state:'CA', 'event':'Assembly'},
-  {timestamp:non_stupid_date(2008,  7,  2), state:'RI', 'event':'Veto'    },
-  {timestamp:non_stupid_date(2008,  7,  9), state:'MA', 'event':'House'   },
-  {timestamp:non_stupid_date(2008,  7, 30), state:'MA', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2008,  8, 14), state:'CA', 'event':'Veto'    },
-  {timestamp:non_stupid_date(2008, 12, 11), state:'MI', 'event':'House'   },
-  {timestamp:non_stupid_date(2009,  2,  7), state:'VT', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2009,  2, 20), state:'NM', 'event':'House'   },
-  {timestamp:non_stupid_date(2009,  3, 12), state:'OR', 'event':'House'   },
-  {timestamp:non_stupid_date(2009,  3, 17), state:'CO', 'event':'House'   },
-  {timestamp:non_stupid_date(2009,  4, 15), state:'WA', 'event':'House'   },
-  {timestamp:non_stupid_date(2009,  4, 21), state:'NV', 'event':'Assembly'},
-  {timestamp:non_stupid_date(2009,  4, 28), state:'WA', 'event':'Law'     },
-  {timestamp:non_stupid_date(2009,  5, 12), state:'CT', 'event':'House'   },
-  {timestamp:non_stupid_date(2009,  5, 19), state:'RI', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2009,  6, 24), state:'DE', 'event':'House'   },
-  {timestamp:non_stupid_date(2010,  6,  2), state:'MA', 'event':'House'   },
-  {timestamp:non_stupid_date(2010,  6,  7), state:'NY', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2010,  7,  8), state:'DC', 'event':'Comittee'},
-  {timestamp:non_stupid_date(2010,  7,  8), state:'DC', 'event':'Comittee '},
-  {timestamp:non_stupid_date(2010,  7, 15), state:'MA', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2010,  8,  4), state:'MA', 'event':'Law'     },
-  {timestamp:non_stupid_date(2010,  9, 21), state:'DC', 'event':'Law'     },
-  {timestamp:non_stupid_date(2011,  2, 23), state:'VT', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2011,  4, 15), state:'VT', 'event':'House'   },
-  {timestamp:non_stupid_date(2011,  4, 23), state:'VT', 'event':'Law'     },
-  {timestamp:non_stupid_date(2011,  5, 19), state:'CA', 'event':'Assembly'},
-  {timestamp:non_stupid_date(2011,  6,  7), state:'DE', 'event':'House'   },
-  {timestamp:non_stupid_date(2011,  6,  7), state:'NY', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2011,  6, 16), state:'RI', 'event':'Senate'  },
-  {timestamp:non_stupid_date(2011,  7, 14), state:'CA', 'event':'Senate'  },
-  // {timestamp:non_stupid_date(2011, , ), state:'', 'event':''},
+  {timestamp:make_date(2006,  4, 17), state:'CO', 'event':'Senate'  },
+  {timestamp:make_date(2006,  5,  1), state:'CA', 'event':'Assembly'},
+  {timestamp:make_date(2006,  8,  1), state:'CA', 'event':'Senate'  },
+  {timestamp:make_date(2006,  9, 30), state:'CA', 'event':'Veto'    },
+  {timestamp:make_date(2007,  1, 24), state:'CO', 'event':'Senate'  },
+  {timestamp:make_date(2007,  2, 14), state:'HI', 'event':'Senate'  },
+  {timestamp:make_date(2007,  3, 21), state:'AR', 'event':'House'   },
+  {timestamp:make_date(2007,  3, 28), state:'MD', 'event':'Senate'  },
+  {timestamp:make_date(2007,  4,  2), state:'MD', 'event':'House'   },
+  {timestamp:make_date(2007,  4,  5), state:'HI', 'event':'House'   },
+  {timestamp:make_date(2007,  4, 10), state:'MD', 'event':'Law'     },
+  {timestamp:make_date(2007,  5,  2), state:'IL', 'event':'House'   },
+  {timestamp:make_date(2007,  5,  3), state:'HI', 'event':'Veto'    },
+  {timestamp:make_date(2007,  5, 14), state:'NC', 'event':'Senate'  },
+  {timestamp:make_date(2007,  5, 14), state:'CA', 'event':'Senate'  },
+  {timestamp:make_date(2007,  5, 31), state:'IL', 'event':'Senate'  },
+  {timestamp:make_date(2007, 12, 13), state:'NJ', 'event':'Assembly'},
+  {timestamp:make_date(2008,  1,  3), state:'NJ', 'event':'Senate'  },
+  {timestamp:make_date(2008,  1,  9), state:'IL', 'event':'House'   },
+  {timestamp:make_date(2008,  1, 13), state:'NJ', 'event':'Law'     },
+  {timestamp:make_date(2008,  2, 18), state:'WA', 'event':'Senate'  },
+  {timestamp:make_date(2008,  3,  4), state:'HI', 'event':'House'   },
+  {timestamp:make_date(2008,  3,  4), state:'HI', 'event':'Senate'  },
+  {timestamp:make_date(2008,  3, 19), state:'VT', 'event':'Senate'  },
+  {timestamp:make_date(2008,  4,  7), state:'IL', 'event':'Law'     },
+  {timestamp:make_date(2008,  4, 14), state:'ME', 'event':'Senate'  },
+  {timestamp:make_date(2008,  4, 24), state:'VT', 'event':'House'   },
+  {timestamp:make_date(2008,  5,  1), state:'HI', 'event':'Law'     },
+  {timestamp:make_date(2008,  5, 16), state:'VT', 'event':'Veto'    },
+  {timestamp:make_date(2008,  5, 27), state:'RI', 'event':'Senate'  },
+  {timestamp:make_date(2008,  6, 20), state:'RI', 'event':'House'   },
+  {timestamp:make_date(2008,  6, 30), state:'CA', 'event':'Assembly'},
+  {timestamp:make_date(2008,  7,  2), state:'RI', 'event':'Veto'    },
+  {timestamp:make_date(2008,  7,  9), state:'MA', 'event':'House'   },
+  {timestamp:make_date(2008,  7, 30), state:'MA', 'event':'Senate'  },
+  {timestamp:make_date(2008,  8, 14), state:'CA', 'event':'Veto'    },
+  {timestamp:make_date(2008, 12, 11), state:'MI', 'event':'House'   },
+  {timestamp:make_date(2009,  2,  7), state:'VT', 'event':'Senate'  },
+  {timestamp:make_date(2009,  2, 20), state:'NM', 'event':'House'   },
+  {timestamp:make_date(2009,  3, 12), state:'OR', 'event':'House'   },
+  {timestamp:make_date(2009,  3, 17), state:'CO', 'event':'House'   },
+  {timestamp:make_date(2009,  4, 15), state:'WA', 'event':'House'   },
+  {timestamp:make_date(2009,  4, 21), state:'NV', 'event':'Assembly'},
+  {timestamp:make_date(2009,  4, 28), state:'WA', 'event':'Law'     },
+  {timestamp:make_date(2009,  5, 12), state:'CT', 'event':'House'   },
+  {timestamp:make_date(2009,  5, 19), state:'RI', 'event':'Senate'  },
+  {timestamp:make_date(2009,  6, 24), state:'DE', 'event':'House'   },
+  {timestamp:make_date(2010,  6,  2), state:'MA', 'event':'House'   },
+  {timestamp:make_date(2010,  6,  7), state:'NY', 'event':'Senate'  },
+  {timestamp:make_date(2010,  7,  8), state:'DC', 'event':'Comittee'},
+  {timestamp:make_date(2010,  7,  8), state:'DC', 'event':'Comittee '},
+  {timestamp:make_date(2010,  7, 15), state:'MA', 'event':'Senate'  },
+  {timestamp:make_date(2010,  8,  4), state:'MA', 'event':'Law'     },
+  {timestamp:make_date(2010,  9, 21), state:'DC', 'event':'Law'     },
+  {timestamp:make_date(2011,  2, 23), state:'VT', 'event':'Senate'  },
+  {timestamp:make_date(2011,  4, 15), state:'VT', 'event':'House'   },
+  {timestamp:make_date(2011,  4, 23), state:'VT', 'event':'Law'     },
+  {timestamp:make_date(2011,  5, 19), state:'CA', 'event':'Assembly'},
+  {timestamp:make_date(2011,  6,  7), state:'DE', 'event':'House'   },
+  {timestamp:make_date(2011,  6,  7), state:'NY', 'event':'Senate'  },
+  {timestamp:make_date(2011,  6, 16), state:'RI', 'event':'Senate'  },
+  {timestamp:make_date(2011,  7, 14), state:'CA', 'event':'Senate'  },
+  // {timestamp:make_date(2011, , ), state:'', 'event':''},
   // NOTE: Add new events here
 ];
 
@@ -351,7 +351,7 @@ var descriptions = {
     'One house'  :"Passed one house"      ,
 }
 
-var start = non_stupid_date(2006, 2, 23);
+var start = make_date(2006, 2, 23);
 
 var states = {};
 
@@ -681,7 +681,7 @@ function render(evt){
     // Date tick-marks
     svgRoot.appendChild(text(padding, base_y + padding, attributes=left_text_style)(date_format(start)));
     for (y=start.getFullYear(); y<(new Date()).getFullYear(); y++){
-        tick = non_stupid_date(y+1, 1, 1);
+        tick = make_date(y+1, 1, 1);
         tick_x = days(tick - start) + padding;
         svgRoot.appendChild(text(tick_x, base_y + padding, attributes=left_text_style)(y+1));
     }
