@@ -81,7 +81,7 @@ function text(x, y, attributes){
         t.setAttribute('y', y);
         t.appendChild(svgDocument.createTextNode(content));
         return t;
-    }
+    };
 }
 
 function link(url, content){
@@ -137,7 +137,7 @@ function path(d, attributes){
 function last_point(path){
     var d = path.getAttribute('d');
     var point = d.split(' ').slice(-2);
-    return [parseInt(point[0]), parseInt(point[1])];
+    return [parseInt(point[0], 10), parseInt(point[1], 10)];
 }
 
 function append_point(path, x, y){
@@ -207,8 +207,8 @@ var abbrs = {
   'WA':"Washington"      ,
   'WV':"West Virginia"   ,
   'WI':"Wisconsin"       ,
-  'WY':"Wyoming"         ,
-}
+  'WY':"Wyoming"
+};
 
 // Electoral votes
 var evs = {
@@ -342,14 +342,14 @@ var colors = { //   # normal   # dark     # darker   # light    # lighter
     'Law'         :['#EF002A', '#B32D45', '#9B001C', '#F73E5F', '#F76F87'],
     'Both houses' :['#8506A9', '#6A237E', '#56026E', '#B23AD4', '#BB63D4'],
     'One house'   :['#2A17B1', '#392E85', '#150873', '#5D4BD8', '#7D71D8'],
-    'complement'  :['#E5FB00', '#B0BC2F', '#95A300', '#EDFD3F', '#F1FD72'],
+    'complement'  :['#E5FB00', '#B0BC2F', '#95A300', '#EDFD3F', '#F1FD72']
 };
 
 var descriptions = {
     'Law'        :"Enacted into state law",
     'Both houses':"Passed both houses"    ,
-    'One house'  :"Passed one house"      ,
-}
+    'One house'  :"Passed one house"
+};
 
 var start = make_date(2006, 2, 23);
 
@@ -366,7 +366,7 @@ var groups = {};
 var tip_items;
 var tip_hints;
 var tip_zones;
-var state_dots = {}
+var state_dots = {};
 var state_group;
 
 
@@ -377,7 +377,9 @@ function debug(e){
     //db += e+' '+s+' '+n+'\n';
 }
 function show_debug(){
-    if (debug_content != '') alert(debug_content);
+    if (debug_content !== '') {
+        alert(debug_content);
+    }
     debug_content = '';
 }
 
@@ -386,8 +388,8 @@ function show_debug(){
 var base_text_style  = {'font-size':padding*4/5};
 var left_text_style  = update({'text-anchor':'start'}, base_text_style);
 var right_text_style = update({'text-anchor':'end'}, base_text_style);
-var label_text_style = {'text-anchor':'middle', 'font-size':padding*3/5,};
-var credits_text_style = {'text-anchor':'middle', 'font-size':padding*2/5,};
+var label_text_style = {'text-anchor':'middle', 'font-size':padding*3/5};
+var credits_text_style = {'text-anchor':'middle', 'font-size':padding*2/5};
 var title_text_style = {'text-anchor':'start','font-size':padding};
 var fudge = base_text_style['font-size']/2;
 
@@ -429,7 +431,7 @@ function show_tooltip(zone, state){
     var bg = tip.firstChild;
     if (bg.getAttribute('x') == 0){
         var bbox = tip.lastChild.getBBox();
-        var fs = parseInt(tip.lastChild.getAttribute('font-size'));
+        var fs = parseInt(tip.lastChild.getAttribute('font-size'), 10);
 
         // watch out for tooltips that fall off of one side of the chart or the other
         var oops = 0;
@@ -444,7 +446,7 @@ function show_tooltip(zone, state){
         bg.setAttribute('width', bbox.width+fs);
         bg.setAttribute('height', bbox.height+(2*fs/3));
 
-        tip.lastChild.setAttribute('x', parseInt(tip.lastChild.getAttribute('x')) + oops);
+        tip.lastChild.setAttribute('x', parseInt(tip.lastChild.getAttribute('x'), 10) + oops);
     }
     svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 1);
     state_dots[state].setAttribute('opacity', 1);
@@ -472,7 +474,7 @@ function make_label(x, y, date, state, event, chart){
     hg.appendChild(ht);
     tip_hints.appendChild(hg);
 
-    var g = group(attributes={'opacity':0,});
+    var g = group(attributes={'opacity':0});
     g.setAttribute('id', 'tip:'+x+','+y);
     g.appendChild(rect(0,0,0,0, attributes=update({'stroke':colors[chart][1], 'fill':'white'}, rect_style)));
     g.appendChild(text(x, y - padding/2, attributes=update({'fill':colors[chart][2]}, label_text_style))(date_format(date) + ': ' + make_label_text(state, event)));
@@ -497,7 +499,7 @@ function append_and_move_label(x, y, extra){
 function old_make_label(x, y, date, state, event, chart){
     var lg = group(attrs={'transform':make_label_rotation(x+1, y-2)});
     lg.appendChild(
-        text(x+1, y-2, attributes=update({'fill':colors[chart][2],}, label_text_style))('← ' + date_format(date) + ': ' + make_label_text(state, event))
+        text(x+1, y-2, attributes=update({'fill':colors[chart][2]}, label_text_style))('← ' + date_format(date) + ': ' + make_label_text(state, event))
     );
     groups[chart].appendChild(lg);
 }
@@ -515,11 +517,11 @@ last_label_text.appendChild(
 function make_label_text(abbr, event){
     var state = abbrs[abbr];
     if (event == 'Veto'){
-        return 'vetoed in ' + state
+        return 'vetoed in ' + state;
     } else if (event == 'Law'){
-        return 'became ' + state + ' law'
+        return 'became ' + state + ' law';
     } else {
-        return 'passed ' + state + ' ' + event
+        return 'passed ' + state + ' ' + event;
     }
 }
 
@@ -642,7 +644,7 @@ function render(evt){
             horizontal_scale = Math.max(0.56, user_hscale);
         }
     }
-    chart_end = days(new Date() - start) + padding
+    chart_end = days(new Date() - start) + padding;
     var width  = chart_end + padding*4;
     var height = base_y + padding*2;
 
@@ -669,7 +671,7 @@ function render(evt){
         }
     }
 
-    var title = text(padding, padding+fudge, attributes=title_text_style)('Progress of the ')
+    var title = text(padding, padding+fudge, attributes=title_text_style)('Progress of the ');
     var title_link = link("http://nationalpopularvote.com/", "National Popular Vote plan");
     title.appendChild(title_link);
     svgRoot.appendChild(title);
@@ -688,9 +690,9 @@ function render(evt){
 
     var credits = text(chart_end/2, base_y + padding *1.875, attributes=credits_text_style)("\u00A9 2009 ");
     credits.appendChild(link('http://glyphobet.net', "Matt Chisholm"));
-    credits.appendChild(svgDocument.createTextNode(" \u2022 "))
+    credits.appendChild(svgDocument.createTextNode(" \u2022 "));
     credits.appendChild(link('http://creativecommons.org/licenses/by-nc-sa/3.0/us/', "Licensed under Creative Commons"));
-    credits.appendChild(svgDocument.createTextNode(" \u2022 "))
+    credits.appendChild(svgDocument.createTextNode(" \u2022 "));
     credits.appendChild(link('http://nationalpopularvote.com/pages/donate.php', "Click here to donate to NPV"));
     svgRoot.appendChild(credits);
 
@@ -704,12 +706,12 @@ function render(evt){
         paths[ct] = p;
         var g = group();
         groups[ct] = g;
-        g.appendChild(p)
+        g.appendChild(p);
         svgRoot.appendChild(g);
 
-        var r = rect(padding+1, key_start-box_size+1, box_size, box_size, attributes=attrs)
+        var r = rect(padding+1, key_start-box_size+1, box_size, box_size, attributes=attrs);
         g.appendChild(r);
-        g.appendChild(text(padding+box_size*1.5, key_start, attributes=update({'fill':colors[ct][2],}, left_text_style))(descriptions[ct]));
+        g.appendChild(text(padding+box_size*1.5, key_start, attributes=update({'fill':colors[ct][2]}, left_text_style))(descriptions[ct]));
         key_start += padding+fudge;
     }
 
@@ -717,7 +719,7 @@ function render(evt){
     svgRoot.appendChild(line(padding, base_y, chart_end, base_y, attributes={'stroke':'black', 'stroke-linecap':'square', 'opacity':1}));
 
     // Group for tooltip hints
-    tip_hints = group(attributes={'opacity':0})
+    tip_hints = group(attributes={'opacity':0});
     svgRoot.appendChild(tip_hints);
 
     state_group = group();
@@ -751,7 +753,7 @@ function finish(){
         var progress = 270 - (last[1] - padding);
         groups[ct].appendChild(
             text(chart_end+fudge, last[1]+fudge, attributes=update({'fill':colors[ct][2]}, left_text_style))(progress + ' (' + (progress/270*100).toFixed(0) + '%)')
-        )
+        );
     }
 
     show_tip_hints();
