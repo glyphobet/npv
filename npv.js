@@ -85,12 +85,12 @@ function text(x, y, attributes){
 }
 
 function link(url, content){
-    var link = _create_element('a', {'text-decoration':'underline'});
-    link.setAttributeNS(xlinkns, 'xlink:href', url);
-    link.setAttributeNS(xlinkns, 'xlink:target', "_top"); // For Firefox
-    link.setAttribute('target', "_top"); // For Safari
-    link.appendChild(svgDocument.createTextNode(content));
-    return link;
+    var l = _create_element('a', {'text-decoration':'underline'});
+    l.setAttributeNS(xlinkns, 'xlink:href', url);
+    l.setAttributeNS(xlinkns, 'xlink:target', "_top"); // For Firefox
+    l.setAttribute('target', "_top"); // For Safari
+    l.appendChild(svgDocument.createTextNode(content));
+    return l;
 }
 
 function line(x1, y1, x2, y2, attributes){
