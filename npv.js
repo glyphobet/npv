@@ -603,11 +603,10 @@ function handle_event(i){
     var state = e['state'];
     var timestamp = e['timestamp'];
     var x = days(timestamp - start) + padding;
-    var old_x, old_y;
+    var old_x, old_y, ct;
 
     if (type == 'Veto'){
         delete states[state];
-        var ct;
         for (var c in charts.slice(0,2)){
             ct = charts[c];
             old_y = get_previous_y(ct);
@@ -618,6 +617,7 @@ function handle_event(i){
 
     } else {
         var step = electoral_votes[state];
+        ct = type;
         if (type != 'Law'){
             states[state] = get(states, state, {});
             if (states[state].hasOwnProperty(type)){
@@ -627,15 +627,15 @@ function handle_event(i){
                 states[state][type] = true;
             }
             if (object_length(states[state]) == 1){
-                type = 'One house';
+                ct = 'One house';
             } else if (object_length(states[state]) == 2){
-                type = 'Both houses';
+                ct = 'Both houses';
             }
         }
-        old_y = get_previous_y(type);
+        old_y = get_previous_y(ct);
         new_y = old_y - step;
-        step_to(type, x, old_y, new_y);
-        make_label(x, new_y, timestamp, state, type, type);
+        step_to(ct, x, old_y, new_y);
+        make_label(x, new_y, timestamp, state, type, ct);
     }
     next_event(i);
 }
