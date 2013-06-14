@@ -157,112 +157,112 @@ function reset_path(path){
 // Data
 // States
 var abbrs = {
-  'AL':"Alabama"         ,
-  'AK':"Alaska"          ,
-  'AZ':"Arizona"         ,
-  'AR':"Arkansas"        ,
-  'CA':"California"      ,
-  'CO':"Colorado"        ,
-  'CT':"Connecticut"     ,
-  'DC':"Washington, D.C.",
-  'DE':"Delaware"        ,
-  'FL':"Florida"         ,
-  'GA':"Georgia"         ,
-  'HI':"Hawaii"          ,
-  'ID':"Idaho"           ,
-  'IL':"Illinois"        ,
-  'IN':"Indiana"         ,
-  'IA':"Iowa"            ,
-  'KS':"Kansas"          ,
-  'KY':"Kentucky"        ,
-  'LA':"Louisiana"       ,
-  'ME':"Maine"           ,
-  'MD':"Maryland"        ,
-  'MA':"Massachusetts"   ,
-  'MI':"Michigan"        ,
-  'MN':"Minnesota"       ,
-  'MS':"Mississippi"     ,
-  'MO':"Missouri"        ,
-  'MT':"Montana"         ,
-  'NE':"Nebraska"        ,
-  'NV':"Nevada"          ,
-  'NH':"New Hampshire"   ,
-  'NJ':"New Jersey"      ,
-  'NM':"New Mexico"      ,
-  'NY':"New York"        ,
-  'NC':"North Carolina"  ,
-  'ND':"North Dakota"    ,
-  'OH':"Ohio"            ,
-  'OK':"Oklahoma"        ,
-  'OR':"Oregon"          ,
-  'PA':"Pennsylvania"    ,
-  'RI':"Rhode Island"    ,
-  'SC':"South Carolina"  ,
-  'SD':"South Dakota"    ,
-  'TN':"Tennessee"       ,
-  'TX':"Texas"           ,
-  'UT':"Utah"            ,
-  'VT':"Vermont"         ,
-  'VA':"Virginia"        ,
-  'WA':"Washington"      ,
-  'WV':"West Virginia"   ,
-  'WI':"Wisconsin"       ,
-  'WY':"Wyoming"
+  AL:"Alabama"         ,
+  AK:"Alaska"          ,
+  AZ:"Arizona"         ,
+  AR:"Arkansas"        ,
+  CA:"California"      ,
+  CO:"Colorado"        ,
+  CT:"Connecticut"     ,
+  DC:"Washington, D.C.",
+  DE:"Delaware"        ,
+  FL:"Florida"         ,
+  GA:"Georgia"         ,
+  HI:"Hawaii"          ,
+  ID:"Idaho"           ,
+  IL:"Illinois"        ,
+  IN:"Indiana"         ,
+  IA:"Iowa"            ,
+  KS:"Kansas"          ,
+  KY:"Kentucky"        ,
+  LA:"Louisiana"       ,
+  ME:"Maine"           ,
+  MD:"Maryland"        ,
+  MA:"Massachusetts"   ,
+  MI:"Michigan"        ,
+  MN:"Minnesota"       ,
+  MS:"Mississippi"     ,
+  MO:"Missouri"        ,
+  MT:"Montana"         ,
+  NE:"Nebraska"        ,
+  NV:"Nevada"          ,
+  NH:"New Hampshire"   ,
+  NJ:"New Jersey"      ,
+  NM:"New Mexico"      ,
+  NY:"New York"        ,
+  NC:"North Carolina"  ,
+  ND:"North Dakota"    ,
+  OH:"Ohio"            ,
+  OK:"Oklahoma"        ,
+  OR:"Oregon"          ,
+  PA:"Pennsylvania"    ,
+  RI:"Rhode Island"    ,
+  SC:"South Carolina"  ,
+  SD:"South Dakota"    ,
+  TN:"Tennessee"       ,
+  TX:"Texas"           ,
+  UT:"Utah"            ,
+  VT:"Vermont"         ,
+  VA:"Virginia"        ,
+  WA:"Washington"      ,
+  WV:"West Virginia"   ,
+  WI:"Wisconsin"       ,
+  WY:"Wyoming"
 };
 
 // Electoral votes
 var evs = {
-  'AK':  3,
-  'AL':  9,
-  'AR':  6,
-  'AZ': 10,
-  'CA': 55,
-  'CO':  9,
-  'CT':  7,
-  'DC':  3,
-  'DE':  3,
-  'FL': 27, // 29
-  'GA': 15, // 16
-  'HI':  4,
-  'IA':  7, // 6
-  'ID':  4,
-  'IL': 21, // 20
-  'IN': 11,
-  'KS':  6,
-  'KY':  8,
-  'LA':  9, // 8
-  'MA': 12, // 11
-  'MD': 10,
-  'ME':  4,
-  'MI': 17, // 16
-  'MN': 10,
-  'MO': 11, // 10
-  'MS':  6,
-  'MT':  3,
-  'NC': 15,
-  'ND':  3,
-  'NE':  5,
-  'NH':  4,
-  'NJ': 15, // 14
-  'NM':  5,
-  'NV':  5, // 6
-  'NY': 31, // 29
-  'OH': 20, // 18
-  'OK':  7,
-  'OR':  7,
-  'PA': 21, // 20
-  'RI':  4,
-  'SC':  8, // 9
-  'SD':  3,
-  'TN': 11,
-  'TX': 34, // 38
-  'UT':  5, // 6
-  'VA': 13,
-  'VT':  3,
-  'WA': 11, // 12
-  'WI': 10,
-  'WV':  5,
-  'WY':  3
+  AK:  3,
+  AL:  9,
+  AR:  6,
+  AZ: 10,
+  CA: 55,
+  CO:  9,
+  CT:  7,
+  DC:  3,
+  DE:  3,
+  FL: 27, // 29
+  GA: 15, // 16
+  HI:  4,
+  IA:  7, // 6
+  ID:  4,
+  IL: 21, // 20
+  IN: 11,
+  KS:  6,
+  KY:  8,
+  LA:  9, // 8
+  MA: 12, // 11
+  MD: 10,
+  ME:  4,
+  MI: 17, // 16
+  MN: 10,
+  MO: 11, // 10
+  MS:  6,
+  MT:  3,
+  NC: 15,
+  ND:  3,
+  NE:  5,
+  NH:  4,
+  NJ: 15, // 14
+  NM:  5,
+  NV:  5, // 6
+  NY: 31, // 29
+  OH: 20, // 18
+  OK:  7,
+  OR:  7,
+  PA: 21, // 20
+  RI:  4,
+  SC:  8, // 9
+  SD:  3,
+  TN: 11,
+  TX: 34, // 38
+  UT:  5, // 6
+  VA: 13,
+  VT:  3,
+  WA: 11, // 12
+  WI: 10,
+  WV:  5,
+  WY:  3
 };
 
 // National Popular Vote progress
