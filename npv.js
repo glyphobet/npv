@@ -156,7 +156,7 @@ function reset_path(path){
 
 // Data
 // States
-var abbrs = {
+var names = {
   AL:"Alabama"         ,
   AK:"Alaska"          ,
   AZ:"Arizona"         ,
@@ -267,72 +267,72 @@ var evs = {
 
 // National Popular Vote progress
 var npvp = [
-  {timestamp:make_date(2006,  4, 17), state:'CO', 'event':'Senate'  },
-  {timestamp:make_date(2006,  5,  1), state:'CA', 'event':'Assembly'},
-  {timestamp:make_date(2006,  8,  1), state:'CA', 'event':'Senate'  },
-  {timestamp:make_date(2006,  9, 30), state:'CA', 'event':'Veto'    },
-  {timestamp:make_date(2007,  1, 24), state:'CO', 'event':'Senate'  },
-  {timestamp:make_date(2007,  2, 14), state:'HI', 'event':'Senate'  },
-  {timestamp:make_date(2007,  3, 21), state:'AR', 'event':'House'   },
-  {timestamp:make_date(2007,  3, 28), state:'MD', 'event':'Senate'  },
-  {timestamp:make_date(2007,  4,  2), state:'MD', 'event':'House'   },
-  {timestamp:make_date(2007,  4,  5), state:'HI', 'event':'House'   },
-  {timestamp:make_date(2007,  4, 10), state:'MD', 'event':'Law'     },
-  {timestamp:make_date(2007,  5,  2), state:'IL', 'event':'House'   },
-  {timestamp:make_date(2007,  5,  3), state:'HI', 'event':'Veto'    },
-  {timestamp:make_date(2007,  5, 14), state:'NC', 'event':'Senate'  },
-  {timestamp:make_date(2007,  5, 14), state:'CA', 'event':'Senate'  },
-  {timestamp:make_date(2007,  5, 31), state:'IL', 'event':'Senate'  },
-  {timestamp:make_date(2007, 12, 13), state:'NJ', 'event':'Assembly'},
-  {timestamp:make_date(2008,  1,  3), state:'NJ', 'event':'Senate'  },
-  {timestamp:make_date(2008,  1,  9), state:'IL', 'event':'House'   },
-  {timestamp:make_date(2008,  1, 13), state:'NJ', 'event':'Law'     },
-  {timestamp:make_date(2008,  2, 18), state:'WA', 'event':'Senate'  },
-  {timestamp:make_date(2008,  3,  4), state:'HI', 'event':'House'   },
-  {timestamp:make_date(2008,  3,  4), state:'HI', 'event':'Senate'  },
-  {timestamp:make_date(2008,  3, 19), state:'VT', 'event':'Senate'  },
-  {timestamp:make_date(2008,  4,  7), state:'IL', 'event':'Law'     },
-  {timestamp:make_date(2008,  4, 14), state:'ME', 'event':'Senate'  },
-  {timestamp:make_date(2008,  4, 24), state:'VT', 'event':'House'   },
-  {timestamp:make_date(2008,  5,  1), state:'HI', 'event':'Law'     },
-  {timestamp:make_date(2008,  5, 16), state:'VT', 'event':'Veto'    },
-  {timestamp:make_date(2008,  5, 27), state:'RI', 'event':'Senate'  },
-  {timestamp:make_date(2008,  6, 20), state:'RI', 'event':'House'   },
-  {timestamp:make_date(2008,  6, 30), state:'CA', 'event':'Assembly'},
-  {timestamp:make_date(2008,  7,  2), state:'RI', 'event':'Veto'    },
-  {timestamp:make_date(2008,  7,  9), state:'MA', 'event':'House'   },
-  {timestamp:make_date(2008,  7, 30), state:'MA', 'event':'Senate'  },
-  {timestamp:make_date(2008,  8, 14), state:'CA', 'event':'Veto'    },
-  {timestamp:make_date(2008, 12, 11), state:'MI', 'event':'House'   },
-  {timestamp:make_date(2009,  2,  7), state:'VT', 'event':'Senate'  },
-  {timestamp:make_date(2009,  2, 20), state:'NM', 'event':'House'   },
-  {timestamp:make_date(2009,  3, 12), state:'OR', 'event':'House'   },
-  {timestamp:make_date(2009,  3, 17), state:'CO', 'event':'House'   },
-  {timestamp:make_date(2009,  4, 15), state:'WA', 'event':'House'   },
-  {timestamp:make_date(2009,  4, 21), state:'NV', 'event':'Assembly'},
-  {timestamp:make_date(2009,  4, 28), state:'WA', 'event':'Law'     },
-  {timestamp:make_date(2009,  5, 12), state:'CT', 'event':'House'   },
-  {timestamp:make_date(2009,  5, 19), state:'RI', 'event':'Senate'  },
-  {timestamp:make_date(2009,  6, 24), state:'DE', 'event':'House'   },
-  {timestamp:make_date(2010,  6,  2), state:'MA', 'event':'House'   },
-  {timestamp:make_date(2010,  6,  7), state:'NY', 'event':'Senate'  },
-  {timestamp:make_date(2010,  7,  8), state:'DC', 'event':'Comittee'},
-  {timestamp:make_date(2010,  7,  8), state:'DC', 'event':'Comittee '},
-  {timestamp:make_date(2010,  7, 15), state:'MA', 'event':'Senate'  },
-  {timestamp:make_date(2010,  8,  4), state:'MA', 'event':'Law'     },
-  {timestamp:make_date(2010,  9, 21), state:'DC', 'event':'Law'     },
-  {timestamp:make_date(2011,  2, 23), state:'VT', 'event':'Senate'  },
-  {timestamp:make_date(2011,  4, 15), state:'VT', 'event':'House'   },
-  {timestamp:make_date(2011,  4, 23), state:'VT', 'event':'Law'     },
-  {timestamp:make_date(2011,  5, 19), state:'CA', 'event':'Assembly'},
-  {timestamp:make_date(2011,  6,  7), state:'DE', 'event':'House'   },
-  {timestamp:make_date(2011,  6,  7), state:'NY', 'event':'Senate'  },
-  {timestamp:make_date(2011,  6, 16), state:'RI', 'event':'Senate'  },
-  {timestamp:make_date(2011,  7, 14), state:'CA', 'event':'Senate'  },
-  {timestamp:make_date(2011,  8,  8), state:'CA', 'event':'Law'     },
-  {timestamp:make_date(2013,  5, 13), state:'OR', 'event':'House'   },
-  {timestamp:make_date(2013,  6, 12), state:'NY', 'event':'Assembly'}
-  // ,{timestamp:make_date(2011, , ), state:'', 'event':''}
+  {timestamp:make_date(2006,  4, 17), state:'CO', type:'Senate'  },
+  {timestamp:make_date(2006,  5,  1), state:'CA', type:'Assembly'},
+  {timestamp:make_date(2006,  8,  1), state:'CA', type:'Senate'  },
+  {timestamp:make_date(2006,  9, 30), state:'CA', type:'Veto'    },
+  {timestamp:make_date(2007,  1, 24), state:'CO', type:'Senate'  },
+  {timestamp:make_date(2007,  2, 14), state:'HI', type:'Senate'  },
+  {timestamp:make_date(2007,  3, 21), state:'AR', type:'House'   },
+  {timestamp:make_date(2007,  3, 28), state:'MD', type:'Senate'  },
+  {timestamp:make_date(2007,  4,  2), state:'MD', type:'House'   },
+  {timestamp:make_date(2007,  4,  5), state:'HI', type:'House'   },
+  {timestamp:make_date(2007,  4, 10), state:'MD', type:'Law'     },
+  {timestamp:make_date(2007,  5,  2), state:'IL', type:'House'   },
+  {timestamp:make_date(2007,  5,  3), state:'HI', type:'Veto'    },
+  {timestamp:make_date(2007,  5, 14), state:'NC', type:'Senate'  },
+  {timestamp:make_date(2007,  5, 14), state:'CA', type:'Senate'  },
+  {timestamp:make_date(2007,  5, 31), state:'IL', type:'Senate'  },
+  {timestamp:make_date(2007, 12, 13), state:'NJ', type:'Assembly'},
+  {timestamp:make_date(2008,  1,  3), state:'NJ', type:'Senate'  },
+  {timestamp:make_date(2008,  1,  9), state:'IL', type:'House'   },
+  {timestamp:make_date(2008,  1, 13), state:'NJ', type:'Law'     },
+  {timestamp:make_date(2008,  2, 18), state:'WA', type:'Senate'  },
+  {timestamp:make_date(2008,  3,  4), state:'HI', type:'House'   },
+  {timestamp:make_date(2008,  3,  4), state:'HI', type:'Senate'  },
+  {timestamp:make_date(2008,  3, 19), state:'VT', type:'Senate'  },
+  {timestamp:make_date(2008,  4,  7), state:'IL', type:'Law'     },
+  {timestamp:make_date(2008,  4, 14), state:'ME', type:'Senate'  },
+  {timestamp:make_date(2008,  4, 24), state:'VT', type:'House'   },
+  {timestamp:make_date(2008,  5,  1), state:'HI', type:'Law'     },
+  {timestamp:make_date(2008,  5, 16), state:'VT', type:'Veto'    },
+  {timestamp:make_date(2008,  5, 27), state:'RI', type:'Senate'  },
+  {timestamp:make_date(2008,  6, 20), state:'RI', type:'House'   },
+  {timestamp:make_date(2008,  6, 30), state:'CA', type:'Assembly'},
+  {timestamp:make_date(2008,  7,  2), state:'RI', type:'Veto'    },
+  {timestamp:make_date(2008,  7,  9), state:'MA', type:'House'   },
+  {timestamp:make_date(2008,  7, 30), state:'MA', type:'Senate'  },
+  {timestamp:make_date(2008,  8, 14), state:'CA', type:'Veto'    },
+  {timestamp:make_date(2008, 12, 11), state:'MI', type:'House'   },
+  {timestamp:make_date(2009,  2,  7), state:'VT', type:'Senate'  },
+  {timestamp:make_date(2009,  2, 20), state:'NM', type:'House'   },
+  {timestamp:make_date(2009,  3, 12), state:'OR', type:'House'   },
+  {timestamp:make_date(2009,  3, 17), state:'CO', type:'House'   },
+  {timestamp:make_date(2009,  4, 15), state:'WA', type:'House'   },
+  {timestamp:make_date(2009,  4, 21), state:'NV', type:'Assembly'},
+  {timestamp:make_date(2009,  4, 28), state:'WA', type:'Law'     },
+  {timestamp:make_date(2009,  5, 12), state:'CT', type:'House'   },
+  {timestamp:make_date(2009,  5, 19), state:'RI', type:'Senate'  },
+  {timestamp:make_date(2009,  6, 24), state:'DE', type:'House'   },
+  {timestamp:make_date(2010,  6,  2), state:'MA', type:'House'   },
+  {timestamp:make_date(2010,  6,  7), state:'NY', type:'Senate'  },
+  {timestamp:make_date(2010,  7,  8), state:'DC', type:'Comittee'},
+  {timestamp:make_date(2010,  7,  8), state:'DC', type:'Comittee '},
+  {timestamp:make_date(2010,  7, 15), state:'MA', type:'Senate'  },
+  {timestamp:make_date(2010,  8,  4), state:'MA', type:'Law'     },
+  {timestamp:make_date(2010,  9, 21), state:'DC', type:'Law'     },
+  {timestamp:make_date(2011,  2, 23), state:'VT', type:'Senate'  },
+  {timestamp:make_date(2011,  4, 15), state:'VT', type:'House'   },
+  {timestamp:make_date(2011,  4, 23), state:'VT', type:'Law'     },
+  {timestamp:make_date(2011,  5, 19), state:'CA', type:'Assembly'},
+  {timestamp:make_date(2011,  6,  7), state:'DE', type:'House'   },
+  {timestamp:make_date(2011,  6,  7), state:'NY', type:'Senate'  },
+  {timestamp:make_date(2011,  6, 16), state:'RI', type:'Senate'  },
+  {timestamp:make_date(2011,  7, 14), state:'CA', type:'Senate'  },
+  {timestamp:make_date(2011,  8,  8), state:'CA', type:'Law'     },
+  {timestamp:make_date(2013,  5, 13), state:'OR', type:'House'   },
+  {timestamp:make_date(2013,  6, 12), state:'NY', type:'Assembly'}
+  //{timestamp:make_date(2011, , ), state:'', type:''}
   // NOTE: Add new events here
 ];
 
@@ -460,7 +460,7 @@ function hide_tooltip(zone, state){
     svgDocument.getElementById('tip:'+zone.id).setAttribute('opacity', 0);
 }
 
-function make_label(x, y, date, state, event, chart){
+function make_label(x, y, date, state, type, chart){
     var zone_size = 6;
     var z = rect(x-zone_size*horizontal_scale, y-zone_size, zone_size*2*horizontal_scale, zone_size*2, attributes={'opacity': 0, 'rx':padding/5, 'ry':padding/5});
     z.setAttribute('onmouseover', 'show_tooltip(this, "'+state+'");');
@@ -480,7 +480,7 @@ function make_label(x, y, date, state, event, chart){
     var g = group(attributes={'opacity':0});
     g.setAttribute('id', 'tip:'+x+','+y);
     g.appendChild(rect(0,0,0,0, attributes=update({'stroke':colors[chart][1], 'fill':'white'}, rect_style)));
-    g.appendChild(text(x, y - padding/2, attributes=update({'fill':colors[chart][2]}, label_text_style))(date_format(date) + ': ' + make_label_text(state, event)));
+    g.appendChild(text(x, y - padding/2, attributes=update({'fill':colors[chart][2]}, label_text_style))(date_format(date) + ': ' + make_label_text(state, type)));
     tip_items.appendChild(g);
 
     if (! state_dots.hasOwnProperty(state)){
@@ -499,32 +499,32 @@ function append_and_move_label(x, y, extra){
     tip_hints.lastChild.setAttribute('cy', y);
 }
 
-function old_make_label(x, y, date, state, event, chart){
+function old_make_label(x, y, date, state, type, chart){
     var lg = group(attrs={'transform':make_label_rotation(x+1, y-2)});
     lg.appendChild(
-        text(x+1, y-2, attributes=update({'fill':colors[chart][2]}, label_text_style))('← ' + date_format(date) + ': ' + make_label_text(state, event))
+        text(x+1, y-2, attributes=update({'fill':colors[chart][2]}, label_text_style))('← ' + date_format(date) + ': ' + make_label_text(state, type))
     );
     groups[chart].appendChild(lg);
 }
 
 /* old_append_and_move_label
-var last_label_group = groups[event].lastChild;
+var last_label_group = groups[type].lastChild;
 last_label_group.setAttribute('transform', make_label_rotation(x, y));
 var last_label_text = last_label_group.lastChild;
 last_label_text.setAttribute('y', y);
 last_label_text.appendChild(
-    svgDocument.createTextNode(', ' + make_label_text(state, e['event']))
+    svgDocument.createTextNode(', ' + make_label_text(state, e['type']))
 );
 */
 
-function make_label_text(abbr, event){
-    var state = abbrs[abbr];
-    if (event == 'Veto'){
-        return 'vetoed in ' + state;
-    } else if (event == 'Law'){
-        return 'became ' + state + ' law';
+function make_label_text(code, type){
+    var state_name = names[code];
+    if (type == 'Veto'){
+        return 'vetoed in ' + state_name;
+    } else if (type == 'Law'){
+        return 'became ' + state_name + ' law';
     } else {
-        return 'passed ' + state + ' ' + event;
+        return 'passed ' + state_name + ' ' + type;
     }
 }
 
@@ -535,18 +535,18 @@ function make_label_rotation(x, y){
 // End label helpers
 
 
-function get_previous_y(event){
-    if (paths[event].getAttribute('d') == 'M'){
+function get_previous_y(type){
+    if (paths[type].getAttribute('d') == 'M'){
         return base_y;
     } else {
-        return last_point(paths[event])[1];
+        return last_point(paths[type])[1];
     }
 }
 
 
-function step_to(event, x, old_y, new_y){ // Step function
-    append_point(paths[event], x, old_y);
-    append_point(paths[event], x, new_y);
+function step_to(type, x, old_y, new_y){ // Step function
+    append_point(paths[type], x, old_y);
+    append_point(paths[type], x, new_y);
 
 /*    var arrow_size = 4;
     var arrow_direction = old_y < new_y ? -1 : 1;
@@ -554,25 +554,25 @@ function step_to(event, x, old_y, new_y){ // Step function
         x+' '+(new_y)+' '+
         (x-arrow_size/2*arrow_direction)+' '+(new_y+arrow_size*arrow_direction)+' '+
         (x+arrow_size/2*arrow_direction)+' '+(new_y+arrow_size*arrow_direction)+
-        'Z', attributes={'fill':colors[event][2], 'stroke':colors[event][2], 'stroke-linejoin':'mitre'});
-    groups[event].appendChild(arrow);*/
+        'Z', attributes={'fill':colors[type][2], 'stroke':colors[type][2], 'stroke-linejoin':'mitre'});
+    groups[type].appendChild(arrow);*/
 }
 
 
 /* // diagonal line. Unused. */
-function diagonal_to(event, x, old_y, new_y){
-    if (event == 'One house' && paths['One house'].getAttribute('d') == 'M'){
+function diagonal_to(type, x, old_y, new_y){
+    if (type == 'One house' && paths['One house'].getAttribute('d') == 'M'){
         append_point(paths['One house'], padding, base_y);
     }
 
-    append_point(paths[event], x, new_y);
-    groups[event].appendChild(circle(x, new_y, 2, attributes={'fill':colors[event][1]}));
+    append_point(paths[type], x, new_y);
+    groups[type].appendChild(circle(x, new_y, 2, attributes={'fill':colors[type][1]}));
 
-    // Set start points for the "next" event type now that this one is non-zero
-    if (event == 'One house' && paths['Both houses'].getAttribute('d') == "M"){
+    // Set start points for the "next" type type now that this one is non-zero
+    if (type == 'One house' && paths['Both houses'].getAttribute('d') == "M"){
         reset_path(paths['Both houses']);
         append_point(paths['Both houses'], x, base_y);
-    } else if (event == 'Both houses' && paths['Law'].getAttribute('d') == "M"){
+    } else if (type == 'Both houses' && paths['Law'].getAttribute('d') == "M"){
         reset_path(paths['Law']);
         append_point(paths['Law'], x, base_y);
     }
@@ -597,12 +597,12 @@ function next_event(i){
 
 function handle_event(i){
     var e = npvp[i];
-    var event = e['event'];
+    var type = e['type'];
     var state = e['state'];
     var x = days(e['timestamp'] - start) + padding;
     var old_x, old_y;
 
-    if (event == 'Veto'){
+    if (type == 'Veto'){
         delete states[state];
         var ct;
         for (var c in charts.slice(0,2)){
@@ -610,29 +610,29 @@ function handle_event(i){
             old_y = get_previous_y(ct);
             new_y = old_y + evs[state];
             step_to(ct, x, old_y, new_y);
-            make_label(x, new_y, e['timestamp'], state, e['event'], ct);
+            make_label(x, new_y, e['timestamp'], state, e['type'], ct);
         }
 
     } else {
         var step = evs[state];
-        if (event != 'Law'){
+        if (type != 'Law'){
             states[state] = get(states, state, {});
-            if (states[state].hasOwnProperty(event)){
+            if (states[state].hasOwnProperty(type)){
                 // Second version of a bill passed; don't increment
                 step = 0;
             } else {
-                states[state][event] = true;
+                states[state][type] = true;
             }
             if (object_length(states[state]) == 1){
-                event = 'One house';
+                type = 'One house';
             } else if (object_length(states[state]) == 2){
-                event = 'Both houses';
+                type = 'Both houses';
             }
         }
-        old_y = get_previous_y(event);
+        old_y = get_previous_y(type);
         new_y = old_y - step;
-        step_to(event, x, old_y, new_y);
-        make_label(x, new_y, e['timestamp'], state, e['event'], event);
+        step_to(type, x, old_y, new_y);
+        make_label(x, new_y, e['timestamp'], state, e['type'], type);
     }
     next_event(i);
 }
