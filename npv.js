@@ -599,7 +599,8 @@ function handle_event(i){
     var e = npvp[i];
     var type = e['type'];
     var state = e['state'];
-    var x = days(e['timestamp'] - start) + padding;
+    var timestamp = e['timestamp'];
+    var x = days(timestamp - start) + padding;
     var old_x, old_y;
 
     if (type == 'Veto'){
@@ -610,7 +611,7 @@ function handle_event(i){
             old_y = get_previous_y(ct);
             new_y = old_y + electoral_votes[state];
             step_to(ct, x, old_y, new_y);
-            make_label(x, new_y, e['timestamp'], state, e['type'], ct);
+            make_label(x, new_y, timestamp, state, type, ct);
         }
 
     } else {
@@ -632,7 +633,7 @@ function handle_event(i){
         old_y = get_previous_y(type);
         new_y = old_y - step;
         step_to(type, x, old_y, new_y);
-        make_label(x, new_y, e['timestamp'], state, e['type'], type);
+        make_label(x, new_y, timestamp, state, type, type);
     }
     next_event(i);
 }
