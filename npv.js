@@ -211,7 +211,7 @@ var names = {
 };
 
 // Electoral votes
-var evs = {
+var electoral_votes = {
   AK:  3,
   AL:  9,
   AR:  6,
@@ -608,13 +608,13 @@ function handle_event(i){
         for (var c in charts.slice(0,2)){
             ct = charts[c];
             old_y = get_previous_y(ct);
-            new_y = old_y + evs[state];
+            new_y = old_y + electoral_votes[state];
             step_to(ct, x, old_y, new_y);
             make_label(x, new_y, e['timestamp'], state, e['type'], ct);
         }
 
     } else {
-        var step = evs[state];
+        var step = electoral_votes[state];
         if (type != 'Law'){
             states[state] = get(states, state, {});
             if (states[state].hasOwnProperty(type)){
