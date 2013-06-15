@@ -397,20 +397,6 @@ var state_dots = {};
 var state_group;
 
 
-// Debugging
-var debug_content = '';
-function debug(e){
-    debug_content += e+'\n';
-    //db += e+' '+s+' '+n+'\n';
-}
-function show_debug(){
-    if (debug_content !== '') {
-        alert(debug_content);
-    }
-    debug_content = '';
-}
-
-
 // text styles
 var base_text_style  = {'font-size':padding*4/5};
 var left_text_style  = update({'text-anchor':'start'}, base_text_style);
@@ -434,7 +420,6 @@ function show_tip_hints(){
         tip_hints.setAttribute('opacity', 1);
         clearTimeout(tip_hint_timeout);
         tip_hint_timeout = setTimeout('hide_tip_hints()', 1000);
-        show_debug();
     }
 }
 
@@ -448,7 +433,6 @@ function hide_tip_hints(){
         tip_hint_timeout = setTimeout('hide_tip_hints()', 10);
     } else {
         tip_hints.setAttribute('opacity', 0);
-        show_debug();
     }
 }
 
@@ -826,7 +810,5 @@ function finish(){
     }
 
     show_tip_hints();
-
-    show_debug();
 }
 
