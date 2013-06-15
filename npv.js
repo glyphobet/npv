@@ -335,6 +335,7 @@ var npvp = [
   {timestamp:make_date(2009,  5, 12), state:'CT', type:'House'   },
   {timestamp:make_date(2009,  5, 19), state:'RI', type:'Senate'  },
   {timestamp:make_date(2009,  6, 24), state:'DE', type:'House'   },
+  {timestamp:make_date(2010,  1,  1), type:'Census'},
   {timestamp:make_date(2010,  6,  2), state:'MA', type:'House'   },
   {timestamp:make_date(2010,  6,  7), state:'NY', type:'Senate'  },
   {timestamp:make_date(2010,  7,  8), state:'DC', type:'Comittee'},
@@ -544,6 +545,8 @@ function make_label_text(code, type){
     var state_name = names[code];
     if (type == 'Veto'){
         return 'vetoed in ' + state_name;
+    } else if (type == 'Census') {
+        return 'electoral vote redistribution based on US Census';
     } else if (type == 'Law'){
         return 'became ' + state_name + ' law';
     } else {
@@ -634,7 +637,7 @@ function handle_event(i){
     var state = e['state'];
     var timestamp = e['timestamp'];
     var x = days(timestamp - start) + padding;
-    var old_x, old_y, ct;
+    var new_y, old_x, old_y, ct;
 
     if (type == 'Veto'){
         delete states[state];
@@ -645,11 +648,38 @@ function handle_event(i){
             step_to(ct, x, old_y, new_y);
             make_label(x, new_y, timestamp, state, type, ct);
         }
-
+    } else if (type == 'Census') {
+        var new_ys = {
+          'One house': 0,
+          'Both houses': 0,
+          'Law': 0
+        };
+        for (var s in states) {
+          var sl = object_length(states[s]);
+          if (sl >= 1) {
+            var ev = find_electoral_votes(timestamp.getFullYear(), s);
+            new_ys['One house'] += ev;
+            if (sl >= 2) {
+              new_ys['Both houses'] += ev;
+              if (sl >= 3) {
+                new_ys['Law'] += ev;
+              }
+            }
+          }
+        }
+        for (var c in charts) {
+          ct = charts[c];
+          old_y = get_previous_y(ct);
+          new_y = base_y - new_ys[ct];
+          step_to(ct, x, old_y, new_y);
+          make_label(x, new_y, timestamp, 'Census', 'Census', ct);
+        }
     } else {
         var step = find_electoral_votes(timestamp.getFullYear(), state);
         ct = type;
-        if (type != 'Law'){
+        if (type == 'Law'){
+            states[state]['Law'] = true;
+        } else {
             states[state] = get(states, state, {});
             if (states[state].hasOwnProperty(type)){
                 // Second version of a bill passed; don't increment
