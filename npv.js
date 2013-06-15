@@ -597,10 +597,10 @@ function diagonal_to(type, x, old_y, new_y){
 function find_electoral_votes(year, state) {
     year = Math.floor(year / 10) * 10;
     while (true) {
-      if (electoral_votes[year][state]) {
-        return electoral_votes[year][state];
-      }
-      year -= 10;
+        if (electoral_votes[year][state]) {
+            return electoral_votes[year][state];
+        }
+        year -= 10;
     }
 }
 
@@ -639,24 +639,24 @@ function handle_event(i){
           'Law': 0
         };
         for (var s in states) {
-          var sl = object_length(states[s]);
-          if (sl >= 1) {
-            var ev = find_electoral_votes(timestamp.getFullYear(), s);
-            new_ys['One house'] += ev;
-            if (sl >= 2) {
-              new_ys['Both houses'] += ev;
-              if (sl >= 3) {
-                new_ys['Law'] += ev;
-              }
+            var sl = object_length(states[s]);
+            if (sl >= 1) {
+                var ev = find_electoral_votes(timestamp.getFullYear(), s);
+                new_ys['One house'] += ev;
+                if (sl >= 2) {
+                    new_ys['Both houses'] += ev;
+                    if (sl >= 3) {
+                        new_ys['Law'] += ev;
+                    }
+                }
             }
-          }
         }
         for (var c in charts) {
-          ct = charts[c];
-          old_y = get_previous_y(ct);
-          new_y = base_y - new_ys[ct];
-          step_to(ct, x, old_y, new_y);
-          make_label(x, new_y, timestamp, 'Census', 'Census', ct);
+            ct = charts[c];
+            old_y = get_previous_y(ct);
+            new_y = base_y - new_ys[ct];
+            step_to(ct, x, old_y, new_y);
+            make_label(x, new_y, timestamp, 'Census', 'Census', ct);
         }
     } else {
         var step = find_electoral_votes(timestamp.getFullYear(), state);
