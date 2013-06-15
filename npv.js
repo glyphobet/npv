@@ -507,24 +507,6 @@ function append_and_move_label(x, y, extra){
     tip_hints.lastChild.setAttribute('cy', y);
 }
 
-function old_make_label(x, y, date, state, type, chart){
-    var lg = group(attrs={'transform':make_label_rotation(x+1, y-2)});
-    lg.appendChild(
-        text(x+1, y-2, attributes=update({'fill':colors[chart][2]}, label_text_style))('← ' + date_format(date) + ': ' + make_label_text(state, type))
-    );
-    groups[chart].appendChild(lg);
-}
-
-/* old_append_and_move_label
-var last_label_group = groups[type].lastChild;
-last_label_group.setAttribute('transform', make_label_rotation(x, y));
-var last_label_text = last_label_group.lastChild;
-last_label_text.setAttribute('y', y);
-last_label_text.appendChild(
-    svgDocument.createTextNode(', ' + make_label_text(state, e['type']))
-);
-*/
-
 function make_label_text(code, type){
     var state_name = names[code];
     if (type == 'Veto'){
@@ -553,23 +535,25 @@ function get_previous_y(type){
     }
 }
 
-
-function step_to(type, x, old_y, new_y){ // Step function
+// Draw a step transition between vote amounts.
+function step_to(type, x, old_y, new_y, arrow){
     append_point(paths[type], x, old_y);
     append_point(paths[type], x, new_y);
 
-/*    var arrow_size = 4;
-    var arrow_direction = old_y < new_y ? -1 : 1;
-    var arrow = path('M'+
-        x+' '+(new_y)+' '+
-        (x-arrow_size/2*arrow_direction)+' '+(new_y+arrow_size*arrow_direction)+' '+
-        (x+arrow_size/2*arrow_direction)+' '+(new_y+arrow_size*arrow_direction)+
-        'Z', attributes={'fill':colors[type][2], 'stroke':colors[type][2], 'stroke-linejoin':'mitre'});
-    groups[type].appendChild(arrow);*/
+    if (arrow) {
+        var arrow_size = 4;
+        var arrow_direction = old_y < new_y ? -1 : 1;
+        var arrow = path('M'+
+            x+' '+(new_y)+' '+
+            (x-arrow_size/2*arrow_direction)+' '+(new_y+arrow_size*arrow_direction)+' '+
+            (x+arrow_size/2*arrow_direction)+' '+(new_y+arrow_size*arrow_direction)+
+            'Z', attributes={'fill':colors[type][2], 'stroke':colors[type][2], 'stroke-linejoin':'mitre'});
+        groups[type].appendChild(arrow);
+    }
 }
 
 
-/* // diagonal line. Unused. */
+// Draw a diagonal line between vote amounts. Unused. */
 function diagonal_to(type, x, old_y, new_y){
     if (type == 'One house' && paths['One house'].getAttribute('d') == 'M'){
         append_point(paths['One house'], padding, base_y);
@@ -592,7 +576,7 @@ function diagonal_to(type, x, old_y, new_y){
         reset_path(paths['Law']);
     }
 }
-/* */
+
 
 function find_electoral_votes(year, state) {
     year = Math.floor(year / 10) * 10;
