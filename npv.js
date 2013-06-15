@@ -212,57 +212,78 @@ var names = {
 
 // Electoral votes
 var electoral_votes = {
-  AK:  3,
-  AL:  9,
-  AR:  6,
-  AZ: 10,
-  CA: 55,
-  CO:  9,
-  CT:  7,
-  DC:  3,
-  DE:  3,
-  FL: 27, // 29
-  GA: 15, // 16
-  HI:  4,
-  IA:  7, // 6
-  ID:  4,
-  IL: 21, // 20
-  IN: 11,
-  KS:  6,
-  KY:  8,
-  LA:  9, // 8
-  MA: 12, // 11
-  MD: 10,
-  ME:  4,
-  MI: 17, // 16
-  MN: 10,
-  MO: 11, // 10
-  MS:  6,
-  MT:  3,
-  NC: 15,
-  ND:  3,
-  NE:  5,
-  NH:  4,
-  NJ: 15, // 14
-  NM:  5,
-  NV:  5, // 6
-  NY: 31, // 29
-  OH: 20, // 18
-  OK:  7,
-  OR:  7,
-  PA: 21, // 20
-  RI:  4,
-  SC:  8, // 9
-  SD:  3,
-  TN: 11,
-  TX: 34, // 38
-  UT:  5, // 6
-  VA: 13,
-  VT:  3,
-  WA: 11, // 12
-  WI: 10,
-  WV:  5,
-  WY:  3
+  2000: {
+    AK:  3,
+    AL:  9,
+    AR:  6,
+    AZ: 10,
+    CA: 55,
+    CO:  9,
+    CT:  7,
+    DC:  3,
+    DE:  3,
+    FL: 27,
+    GA: 15,
+    HI:  4,
+    IA:  7,
+    ID:  4,
+    IL: 21,
+    IN: 11,
+    KS:  6,
+    KY:  8,
+    LA:  9,
+    MA: 12,
+    MD: 10,
+    ME:  4,
+    MI: 17,
+    MN: 10,
+    MO: 11,
+    MS:  6,
+    MT:  3,
+    NC: 15,
+    ND:  3,
+    NE:  5,
+    NH:  4,
+    NJ: 15,
+    NM:  5,
+    NV:  5,
+    NY: 31,
+    OH: 20,
+    OK:  7,
+    OR:  7,
+    PA: 21,
+    RI:  4,
+    SC:  8,
+    SD:  3,
+    TN: 11,
+    TX: 34,
+    UT:  5,
+    VA: 13,
+    VT:  3,
+    WA: 11,
+    WI: 10,
+    WV:  5,
+    WY:  3
+  },
+  2010: {
+    FL: 29,
+    GA: 16,
+    IA:  6,
+    IL: 20,
+    LA:  8,
+    MA: 11,
+    MI: 16,
+    MO: 10,
+    NJ: 14,
+    NV:  6,
+    NY: 29,
+    OH: 18,
+    PA: 20,
+    SC:  9,
+    TX: 38,
+    UT:  6,
+    WA: 12
+  }
 };
 
 // National Popular Vote progress
@@ -586,6 +607,16 @@ function diagonal_to(type, x, old_y, new_y){
 }
 /* */
 
+function find_electoral_votes(year, state) {
+    year = Math.floor(year / 10) * 10;
+    while (true) {
+      if (electoral_votes[year][state]) {
+        return electoral_votes[year][state];
+      }
+      year -= 10;
+    }
+}
+
 function next_event(i){
     if (i < npvp.length - 1){
         handle_event(i+1);
@@ -610,13 +641,13 @@ function handle_event(i){
         for (var c in charts.slice(0,2)){
             ct = charts[c];
             old_y = get_previous_y(ct);
-            new_y = old_y + electoral_votes[state];
+            new_y = old_y + find_electoral_votes(timestamp.getFullYear(), state);
             step_to(ct, x, old_y, new_y);
             make_label(x, new_y, timestamp, state, type, ct);
         }
 
     } else {
-        var step = electoral_votes[state];
+        var step = find_electoral_votes(timestamp.getFullYear(), state);
         ct = type;
         if (type != 'Law'){
             states[state] = get(states, state, {});
