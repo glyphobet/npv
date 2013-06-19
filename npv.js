@@ -470,7 +470,13 @@ function hide_tooltip(zone, state){
 
 function make_label(x, y, date, state, type, chart){
     var zone_size = 6;
-    var z = rect(x-zone_size*horizontal_scale, y-zone_size, zone_size*2*horizontal_scale, zone_size*2, attributes={'opacity': 0, 'rx':padding/5, 'ry':padding/5});
+    var z = rect(
+        x-zone_size*horizontal_scale,
+        y-zone_size,
+        zone_size*2*horizontal_scale,
+        zone_size*2,
+        attributes={'opacity': 0, 'rx':padding/5, 'ry':padding/5}
+    );
     z.setAttribute('onmouseover', 'show_tooltip(this, "'+state+'");');
     z.setAttribute('onmouseout' , 'hide_tooltip(this, "'+state+'");');
     z.setAttribute('id', x+','+y);
@@ -478,8 +484,24 @@ function make_label(x, y, date, state, type, chart){
 
     var rect_style = {'opacity':0.75, 'rx':padding/5, 'ry':padding/5};
 
-    var hb = rect(x-zone_size*horizontal_scale, y-zone_size, zone_size*2*horizontal_scale, zone_size*2, attributes=update({'stroke':colors['complement'][1], 'fill':colors['complement'][4]}, rect_style));
-    var ht = text(x, y+zone_size-1, attributes=update({'fill':colors['complement'][2]}, label_text_style))('?');
+    var hb = rect(
+        x-zone_size*horizontal_scale,
+        y-zone_size,
+        zone_size*2*horizontal_scale,
+        zone_size*2,
+        attributes=update(
+            {'stroke':colors['complement'][1], 'fill':colors['complement'][4]},
+            rect_style
+        )
+    );
+    var ht = text(
+        x,
+        y+zone_size-1,
+        attributes=update(
+            {'fill':colors['complement'][2]},
+            label_text_style
+        )
+    )('?');
     var hg = group();
     hg.appendChild(hb);
     hg.appendChild(ht);
@@ -487,8 +509,23 @@ function make_label(x, y, date, state, type, chart){
 
     var g = group(attributes={'opacity':0});
     g.setAttribute('id', 'tip:'+x+','+y);
-    g.appendChild(rect(0,0,0,0, attributes=update({'stroke':colors[chart][1], 'fill':'white'}, rect_style)));
-    g.appendChild(text(x, y - padding/2, attributes=update({'fill':colors[chart][2]}, label_text_style))(date_format(date) + ': ' + make_label_text(state, type)));
+    g.appendChild(
+        rect(
+            0,0,0,0,
+            attributes=update(
+                {'stroke':colors[chart][1], 'fill':'white'},
+                rect_style
+            )
+        )
+    );
+    g.appendChild(
+        text(
+            x, y - padding/2,
+            attributes=update(
+                {'fill': colors[chart][2]},
+                label_text_style
+            )
+        )(date_format(date) + ': ' + make_label_text(state, type)));
     tip_items.appendChild(g);
 
     if (! state_dots.hasOwnProperty(state)){
@@ -729,16 +766,40 @@ function render(evt){
     title.appendChild(title_link);
     svgRoot.appendChild(title);
 
-    svgRoot.appendChild(text(chart_end, padding+fudge, attributes=right_text_style)("Electoral votes needed to take effect:"));
+    svgRoot.appendChild(
+        text(
+            chart_end,
+            padding+fudge,
+            attributes=right_text_style
+        )("Electoral votes needed to take effect:")
+    );
 
-    svgRoot.appendChild(text(chart_end+fudge, padding+fudge, attributes=left_text_style)(270));
+    svgRoot.appendChild(
+        text(
+            chart_end+fudge,
+            padding+fudge,
+            attributes=left_text_style
+        )(270)
+    );
 
     // Date tick-marks
-    svgRoot.appendChild(text(padding, base_y + padding, attributes=left_text_style)(date_format(start)));
+    svgRoot.appendChild(
+        text(
+            padding,
+            base_y + padding,
+            attributes=left_text_style
+        )(date_format(start))
+    );
     for (y=start.getFullYear(); y<(new Date()).getFullYear(); y++){
         tick = make_date(y+1, 1, 1);
         tick_x = days(tick - start) + padding;
-        svgRoot.appendChild(text(tick_x, base_y + padding, attributes=left_text_style)(y+1));
+        svgRoot.appendChild(
+            text(
+                tick_x,
+                base_y + padding,
+                attributes=left_text_style
+            )(y+1)
+        );
     }
 
     var credits = text(chart_end/2, base_y + padding *1.875, attributes=credits_text_style)("\u00A9 2009 ");
@@ -764,12 +825,29 @@ function render(evt){
 
         var r = rect(padding+1, key_start-box_size+1, box_size, box_size, attributes=attrs);
         g.appendChild(r);
-        g.appendChild(text(padding+box_size*1.5, key_start, attributes=update({'fill':colors[ct][2]}, left_text_style))(descriptions[ct]));
+        g.appendChild(
+            text(
+                padding+box_size*1.5,
+                key_start,
+                attributes=update(
+                    {'fill':colors[ct][2]},
+                    left_text_style
+                )
+            )(descriptions[ct])
+        );
         key_start += padding+fudge;
     }
 
     // Base line
-    svgRoot.appendChild(line(padding, base_y, chart_end, base_y, attributes={'stroke':'black', 'stroke-linecap':'square', 'opacity':1}));
+    svgRoot.appendChild(
+        line(
+            padding,
+            base_y,
+            chart_end,
+            base_y,
+            attributes={'stroke':'black', 'stroke-linecap':'square', 'opacity':1}
+        )
+    );
 
     // Group for tooltip hints
     tip_hints = group(attributes={'opacity':0});
@@ -786,7 +864,13 @@ function render(evt){
     tip_zones = group(attributes={'opacity':1});
     svgRoot.appendChild(tip_zones);
 
-    var tip_zone_hover = rect(padding, padding*2, chart_end-padding, base_y-padding*2, attributes={'opacity':0.0});
+    var tip_zone_hover = rect(
+        padding,
+        padding*2,
+        chart_end-padding,
+        base_y-padding*2,
+        attributes={'opacity':0.0}
+    );
     tip_zones.appendChild(tip_zone_hover);
     tip_zone_hover.setAttribute('onmousemove', 'show_tip_hints()');
     tip_zone_hover.setAttribute('onmouseout', 'hide_tip_hints()');
@@ -805,7 +889,12 @@ function finish(){
         // Add a number for progress
         var progress = 270 - (last[1] - padding);
         groups[ct].appendChild(
-            text(chart_end+fudge, last[1]+fudge, attributes=update({'fill':colors[ct][2]}, left_text_style))(progress + ' (' + (progress/270*100).toFixed(0) + '%)')
+            text(chart_end+fudge, last[1]+fudge,
+                attributes=update(
+                    {'fill':colors[ct][2]},
+                    left_text_style
+                )
+            )(progress + ' (' + (progress/270*100).toFixed(0) + '%)')
         );
     }
 
