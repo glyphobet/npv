@@ -588,12 +588,16 @@ function find_electoral_votes(year, state) {
     }
 }
 
+var delay = false;
 function next_event(i){
     if (i < npvp.length - 1){
-        handle_event(i+1);
-/*        setTimeout('handle_event('+(i+1)+')',
-            (npvp[i+1]['timestamp'] - npvp[i]['timestamp'])/10000000
-        );*/
+        if (delay) {
+            setTimeout('handle_event('+(i+1)+')',
+                (npvp[i+1].timestamp - npvp[i].timestamp)/10000000
+            );
+        } else {
+            handle_event(i+1);
+        }
     } else {
         finish();
     }
