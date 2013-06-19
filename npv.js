@@ -384,7 +384,7 @@ var states = {};
 
 var padding = 20;
 var base_y = 270 + padding; // 538
-var horizontal_scale = 2/3;
+var horizontal_scale = 3/5;
 
 var chart_end;
 
