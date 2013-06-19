@@ -603,72 +603,84 @@ function next_event(i){
     }
 }
 
-function handle_event(i){
-    var e = npvp[i];
-    var type = e['type'];
-    var state = e['state'];
-    var timestamp = e['timestamp'];
-    var x = days(timestamp - start) + padding;
-    var new_y, old_x, old_y, ct;
 
-    if (type == 'Veto'){
-        delete states[state];
-        for (var c in charts.slice(0,2)){
-            ct = charts[c];
-            old_y = get_previous_y(ct);
-            new_y = old_y + find_electoral_votes(timestamp.getFullYear(), state);
-            step_to(ct, x, old_y, new_y);
-            make_label(x, new_y, timestamp, state, type, ct);
-        }
-    } else if (type == 'Census') {
-        var new_ys = {
-          'One house': 0,
-          'Both houses': 0,
-          'Law': 0
-        };
-        for (var s in states) {
-            var sl = object_length(states[s]);
-            if (sl >= 1) {
-                var ev = find_electoral_votes(timestamp.getFullYear(), s);
-                new_ys['One house'] += ev;
-                if (sl >= 2) {
-                    new_ys['Both houses'] += ev;
-                    if (sl >= 3) {
-                        new_ys['Law'] += ev;
-                    }
+function handle_veto(x, e) {
+    delete states[e.state];
+    for (var c in charts.slice(0,2)){
+        var ct = charts[c];
+        var old_y = get_previous_y(ct);
+        var new_y = old_y + find_electoral_votes(e.timestamp.getFullYear(), e.state);
+        step_to(ct, x, old_y, new_y);
+        make_label(x, new_y, e.timestamp, e.state, e.type, ct);
+    }
+}
+
+
+function handle_census(x, e) {
+    var new_ys = {
+      'One house': 0,
+      'Both houses': 0,
+      'Law': 0
+    };
+    for (var s in states) {
+        var sl = object_length(states[s]);
+        if (sl >= 1) {
+            var ev = find_electoral_votes(e.timestamp.getFullYear(), s);
+            new_ys['One house'] += ev;
+            if (sl >= 2) {
+                new_ys['Both houses'] += ev;
+                if (sl >= 3) {
+                    new_ys['Law'] += ev;
                 }
             }
         }
-        for (var c in charts) {
-            ct = charts[c];
-            old_y = get_previous_y(ct);
-            new_y = base_y - new_ys[ct];
-            step_to(ct, x, old_y, new_y);
-            make_label(x, new_y, timestamp, 'Census', 'Census', ct);
-        }
-    } else {
-        var step = find_electoral_votes(timestamp.getFullYear(), state);
-        ct = type;
-        if (type == 'Law'){
-            states[state]['Law'] = true;
-        } else {
-            states[state] = get(states, state, {});
-            if (states[state].hasOwnProperty(type)){
-                // Second version of a bill passed; don't increment
-                step = 0;
-            } else {
-                states[state][type] = true;
-            }
-            if (object_length(states[state]) == 1){
-                ct = 'One house';
-            } else if (object_length(states[state]) == 2){
-                ct = 'Both houses';
-            }
-        }
-        old_y = get_previous_y(ct);
-        new_y = old_y - step;
+    }
+    for (var c in charts) {
+        var ct = charts[c];
+        var old_y = get_previous_y(ct);
+        var new_y = base_y - new_ys[ct];
         step_to(ct, x, old_y, new_y);
-        make_label(x, new_y, timestamp, state, type, ct);
+        make_label(x, new_y, e.timestamp, 'Census', 'Census', ct);
+    }
+}
+
+
+function handle_passage(x, e) {
+    var step = find_electoral_votes(e.timestamp.getFullYear(), e.state);
+    var ct = e.type;
+    if (e.type == 'Law'){
+        states[e.state]['Law'] = true;
+    } else {
+        states[e.state] = get(states, e.state, {});
+        if (states[e.state].hasOwnProperty(e.type)){
+            // Second version of a bill passed; don't increment
+            step = 0;
+        } else {
+            states[e.state][e.type] = true;
+        }
+        if (object_length(states[e.state]) == 1){
+            ct = 'One house';
+        } else if (object_length(states[e.state]) == 2){
+            ct = 'Both houses';
+        }
+    }
+    var old_y = get_previous_y(ct);
+    var new_y = old_y - step;
+    step_to(ct, x, old_y, new_y);
+    make_label(x, new_y, e.timestamp, e.state, e.type, ct);
+}
+
+
+function handle_event(i){
+    var e = npvp[i];
+    var x = days(e.timestamp - start) + padding;
+
+    if (e.type == 'Veto'){
+        handle_veto(x, e);
+    } else if (e.type == 'Census') {
+        handle_census(x, e);
+    } else {
+        handle_passage(x, e);
     }
     next_event(i);
 }
