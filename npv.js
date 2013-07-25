@@ -355,7 +355,8 @@ var npvp = [
   {timestamp:make_date(2013,  5, 13), state:'OR', type:'House'   },
   {timestamp:make_date(2013,  6, 12), state:'NY', type:'Assembly'},
   {timestamp:make_date(2013,  6, 13), state:'RI', type:'Senate'  },
-  {timestamp:make_date(2013,  6, 13), state:'RI', type:'House'   }
+  {timestamp:make_date(2013,  6, 13), state:'RI', type:'House'   },
+  {timestamp:make_date(2013,  7, 12), state:'RI', type:'Law'     }
   //{timestamp:make_date(2011, , ), state:'', type:''}
   // NOTE: Add new events here
 ];
