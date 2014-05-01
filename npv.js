@@ -389,7 +389,7 @@ var states = {};
 
 var padding = 20;
 var base_y = 270 + padding; // 538
-var horizontal_scale = 3/5;
+var horizontal_scale = 1;
 
 var chart_end;
 
@@ -474,12 +474,12 @@ function hide_tooltip(zone, state){
 }
 
 function make_label(x, y, date, state, type, chart){
-    var zone_size = 6;
+    var zone_width = 4, zone_height = 6;
     var z = rect(
-        x-zone_size*horizontal_scale,
-        y-zone_size,
-        zone_size*2*horizontal_scale,
-        zone_size*2,
+        x-zone_width,
+        y-zone_height,
+        zone_width*2,
+        zone_height*2,
         attributes={'opacity': 0, 'rx':padding/5, 'ry':padding/5}
     );
     z.setAttribute('onmouseover', 'show_tooltip(this, "'+state+'");');
@@ -490,10 +490,10 @@ function make_label(x, y, date, state, type, chart){
     var rect_style = {'opacity':0.75, 'rx':padding/5, 'ry':padding/5};
 
     var hb = rect(
-        x-zone_size*horizontal_scale,
-        y-zone_size,
-        zone_size*2*horizontal_scale,
-        zone_size*2,
+        x-zone_width,
+        y-zone_height,
+        zone_width*2,
+        zone_height*2,
         attributes=update(
             {'stroke':colors['complement'][1], 'fill':colors['complement'][4]},
             rect_style
@@ -501,7 +501,7 @@ function make_label(x, y, date, state, type, chart){
     );
     var ht = text(
         x,
-        y+zone_size-1,
+        y+zone_height-1,
         attributes=update(
             {'fill':colors['complement'][2]},
             label_text_style
@@ -736,7 +736,7 @@ function render(evt){
     if (window.frameElement && window.frameElement.hasAttribute('hscale')){
         var user_hscale = parseFloat(window.frameElement.getAttribute('hscale'));
         if (user_hscale){
-            horizontal_scale = Math.max(0.56, user_hscale);
+            horizontal_scale = Math.max(2/5, user_hscale);
         }
     }
     chart_end = days(new Date() - start) + padding;
