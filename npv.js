@@ -27,6 +27,10 @@ function date_format(date){
     return date.getDate() + ' ' + month_names[date.getMonth()] + ' ' + date.getFullYear();
 }
 
+function short_date_format(date){
+    return date.getDate() + ' ' + month_names[date.getMonth()].slice(0,3) + ' ' + date.getFullYear();
+}
+
 function days(duration){
     return Math.round(duration / (60 * 60 * 24 * 1000) * horizontal_scale);
 }
@@ -793,7 +797,7 @@ function render(evt){
             padding,
             base_y + padding,
             attributes=left_text_style
-        )(date_format(start))
+        )(short_date_format(start))
     );
     for (y=start.getFullYear(); y<(new Date()).getFullYear(); y++){
         tick = make_date(y+1, 1, 1);
